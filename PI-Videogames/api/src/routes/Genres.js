@@ -1,12 +1,11 @@
 const { Router } = require("express");
-const axios = require("axios");
 require("dotenv").config();
-const { API_KEY } = process.env;
-const { VideoGame, Genders } = require("../db.js");
+const { genresInfo } = require("./functionsGenres");
 const router = Router();
 
 router.get("/genres", async (req, res, next) => {
-  res.send("estoy en Genres");
+  const genresAll = await genresInfo();
+  res.status(200).json(genresAll);
 });
 
 module.exports = router;
