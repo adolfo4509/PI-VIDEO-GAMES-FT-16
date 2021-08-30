@@ -4,30 +4,19 @@ const { Genres } = require("../db");
 
 const genresInfo = async () => {
   const apiGenresInfo = await axios.get(
-    ` https://api.rawg.io/api/games?key=${API_KEY}`
-  );
-  const infoGenres = await apiGenresInfo.data.results.map((e) =>
-    e.genres.map((e) => e.name)
+    ` https://api.rawg.io/api/genres?key=${API_KEY}`
   );
 
-  let temp = [];
-  infoGenres.map((e) => {
-    if (e) {
-      temp = [...temp, ...e];
-    }
+  const infoGenres = await apiGenresInfo.data.results.map((e) => {
+    return { genres: e.name };
   });
 
-  temp = [...new Set(temp)].flat().sort();
+  const consultDb = await Genres.findAll({});
+  if (consultDb.length === 0) {
+    const dbGenres = await Genres.bulkCreate(infoGenres);
+  }
 
-  temp.map((e) => {
-    Genres.findOrCreate({
-      where: { genres: e },
-    });
-  });
-
-  const allGenres = await Genres.findAll();
-
-  return allGenres;
+  return consultDb;
 };
 
 module.exports = { genresInfo };

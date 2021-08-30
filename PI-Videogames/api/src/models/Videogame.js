@@ -15,6 +15,7 @@ module.exports = (sequelize) => {
     image: { type: DataTypes.STRING, allowNull: true },
     rating: { type: DataTypes.STRING, allowNull: true },
     released: { type: DataTypes.STRING, allowNull: true },
+    description: { type: DataTypes.TEXT, allowNull: false },
     createInDb: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
