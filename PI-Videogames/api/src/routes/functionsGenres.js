@@ -8,12 +8,12 @@ const genresInfo = async () => {
   );
 
   const infoGenres = await apiGenresInfo.data.results.map((e) => {
-    return { genres: e.name };
+    return { genresName: e.name };
   });
-
+  let dbGenres = [];
   const consultDb = await Genres.findAll({});
   if (consultDb.length === 0) {
-    const dbGenres = await Genres.bulkCreate(infoGenres);
+    dbGenres = await Genres.bulkCreate(infoGenres);
   }
 
   return consultDb;

@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
     rating: { type: DataTypes.STRING, allowNull: true },
     released: { type: DataTypes.STRING, allowNull: true },
     description: { type: DataTypes.TEXT, allowNull: false },
+    genresName: { type: DataTypes.STRING, allowNull: false },
     createInDb: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
