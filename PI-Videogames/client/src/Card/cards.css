@@ -1,0 +1,13 @@
+.container {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+.cards {
+  display: flex;
+}
+
+.image {
+  width: 250px;
+  height: 300px;
+}

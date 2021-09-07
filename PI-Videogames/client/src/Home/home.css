@@ -1,0 +1,28 @@
+.cards_breads {
+  display: grid;
+  grid-template-rows: auto;
+  grid-gap: 10px;
+  min-width: 90%;
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .cards_breads {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    width: 4rem;
+  }
+}
+.select {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 1rem;
+  background-color: #282c34;
+  margin-top: 2rem;
+  padding: 0 2rem;
+  align-items: center;
+}
+.ordenar {
+  padding: 2rem;
+  font-size: 1.5rem;
+}

@@ -13,16 +13,7 @@ Debe devolver solo los datos necesarios para la ruta principal
 */
 router.get("/videogames", async (req, res, next) => {
   const gameAll = await getAllInfo();
-  const gameRutaP = await gameAll.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      image: e.image,
-      genresName: e.genres,
-      platforms: e.platforms,
-    };
-  });
-  res.status(200).json(gameRutaP);
+  res.status(200).json(gameAll);
 });
 
 /*
@@ -71,7 +62,6 @@ router.get("/videogames/:id", async (req, res) => {
     let infoApiUrl = await axios.get(
       ` https://api.rawg.io/api/games/${id}?key=${API_KEY}`
     );
-
     const videogameDetail = await infoApiUrl;
     let infoId = [videogameDetail.data].map((e) => {
       return {
@@ -132,34 +122,34 @@ router.post("/videogame", async (req, res) => {
     released,
     rating,
     createdInDb,
-    genresName,
+    genres,
     platforms,
     image,
   } = req.body;
-  try {
-    const videogameCreate = await Videogame.create({
-      name,
-      image,
-      description,
-      released,
-      rating,
-      genresName,
-      platforms,
-      createdInDb,
-    });
+  // try {
+  const videogameCreate = await Videogame.create({
+    name,
+    image,
+    description,
+    released,
+    rating,
+    genres,
+    platforms,
+    createdInDb,
+  });
 
-    let genresDb = await Genres.findAll({
-      where: { genresName: genresName },
-      include: {
-        model: Videogame,
-      },
-    });
+  let genresDb = await Genres.findAll({
+    where: { genres: "genres" },
+    include: {
+      model: Videogame,
+    },
+  });
 
-    videogameCreate.addGenres(genresDb);
+  videogameCreate.addGenres(genresDb);
 
-    res.status(200).send("Videogame agregado con exito");
-  } catch {
-    res.status(404).send("verifique los datos");
-  }
+  res.status(200).send("Videogame agregado con exito");
+  // } catch {
+  //   res.status(404).send("verifique los datos");
+  // }
 });
 module.exports = router;

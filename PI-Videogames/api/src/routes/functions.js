@@ -3,94 +3,49 @@ const { Videogame, Genres } = require("../db");
 const { API_KEY } = process.env;
 
 const apiInfo = async () => {
-  const urlApi = await axios.get(
-    ` https://api.rawg.io/api/games?key=${API_KEY}`
-  );
-  const urlApi2 = await axios.get(
-    ` https://api.rawg.io/api/games?key=${API_KEY}&page=2`
-  );
-  const urlApi3 = await axios.get(
-    ` https://api.rawg.io/api/games?key=${API_KEY}&page=3`
-  );
-  const urlApi4 = await axios.get(
-    ` https://api.rawg.io/api/games?key=${API_KEY}&page=4`
-  );
-  const urlApi5 = await axios.get(
-    ` https://api.rawg.io/api/games?key=${API_KEY}&page=5`
-  );
-  const apiInfo = await urlApi.data.results.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      image: e.background_image,
-      rating: e.rating,
-      released: e.released,
-      genresName: e.genres.map((e) => e.name),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
-      description: e.description,
-    };
+  const urlApi = async () => {
+    return await axios.get(` https://api.rawg.io/api/games?key=${API_KEY}`);
+  };
+  const urlApi2 = async () => {
+    return await axios.get(
+      ` https://api.rawg.io/api/games?key=${API_KEY}&page=2`
+    );
+  };
+  const urlApi3 = async () => {
+    return await axios.get(
+      ` https://api.rawg.io/api/games?key=${API_KEY}&page=3`
+    );
+  };
+  const urlApi4 = async () => {
+    return await axios.get(
+      ` https://api.rawg.io/api/games?key=${API_KEY}&page=4`
+    );
+  };
+  const urlApi5 = async () => {
+    return await axios.get(
+      ` https://api.rawg.io/api/games?key=${API_KEY}&page=5`
+    );
+  };
+  let infoTotal = Promise.all([
+    urlApi(),
+    urlApi2(),
+    urlApi3(),
+    urlApi4(),
+    urlApi5(),
+  ]).then((resp) => {
+    resp.map((e) => {
+      e.data;
+    });
+    return resp;
   });
-  const apiInfo2 = await urlApi2.data.results.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      image: e.background_image,
-      rating: e.rating,
-      released: e.released,
-      genresName: e.genres.map((e) => e.name),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
-      description: e.description,
-    };
-  });
-  const apiInf3 = await urlApi3.data.results.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      image: e.background_image,
-      rating: e.rating,
-      released: e.released,
-      genresName: e.genres.map((e) => e.name),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
-      description: e.description,
-    };
-  });
-  const apiInf4 = await urlApi4.data.results.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      image: e.background_image,
-      rating: e.rating,
-      released: e.released,
-      genresName: e.genres.map((e) => e.name),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
-      description: e.description,
-    };
-  });
-  const apiInf5 = await urlApi5.data.results.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      image: e.background_image,
-      rating: e.rating,
-      released: e.released,
-      genresName: e.genres.map((e) => e.name),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
-      description: e.description,
-    };
-  });
-  const apiInfoTotal = apiInfo
-    .concat(apiInfo2)
-    .concat(apiInf3)
-    .concat(apiInf4)
-    .concat(apiInf5);
 
-  return apiInfoTotal;
+  return infoTotal;
 };
 const getDbInfo = async () => {
   return await Videogame.findAll({
     include: {
       model: Genres,
-      attributes: ["genresName"],
+      attributes: ["genres"],
       through: {
         attributes: [],
       },
@@ -99,9 +54,23 @@ const getDbInfo = async () => {
 };
 
 const getAllInfo = async () => {
-  const apiInfoUrl = await apiInfo();
+  const infoTotal = await apiInfo();
+  let temp = await infoTotal.map((e) => {
+    return e.data.results.map((e) => {
+      return {
+        id: e.id,
+        name: e.name,
+        image: e.background_image,
+        rating: e.rating,
+        released: e.released,
+        genres: e.genres.map((e) => e.name),
+        platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
+      };
+    });
+  });
+
   const dbInfo = await getDbInfo();
-  const totalApi = apiInfoUrl.concat(dbInfo);
+  const totalApi = temp.concat(dbInfo).flat();
 
   return totalApi;
 };
