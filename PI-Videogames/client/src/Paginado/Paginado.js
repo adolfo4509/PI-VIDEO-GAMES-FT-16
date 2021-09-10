@@ -10,16 +10,14 @@ export default function Paginado({ breadsPerPage, paginado }) {
   }
 
   return (
-    <div className="otor">
-      <nav>
-        <ul className="paginado">
-          {pageNumbers &&
-            pageNumbers.map((number) => (
-              <a className="App-link" onClick={() => paginado(number)}>
-                {number}
-              </a>
-            ))}
-        </ul>
+    <div>
+      <nav className="nav_paginado">
+        {pageNumbers &&
+          pageNumbers.map((number) => (
+            <p className="App-link" onClick={() => paginado(number)}>
+              {number}
+            </p>
+          ))}
       </nav>
     </div>
   );

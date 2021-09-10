@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../img/logoHenry.png";
 import "../App.css";
+import { Search } from "../Search/Search";
 const Nav = () => {
   return (
     <header className="App-header">
@@ -16,8 +17,9 @@ const Nav = () => {
         />
       </div>
       <h1>Henry Videogames</h1>
+      <Search />
       <div className="navBar">
-        <Link className="App-link" exact to="/">
+        <Link className="App-link" exact to="/home">
           <h3>Home</h3>
         </Link>
         <Link className="App-link" to="/videogame">

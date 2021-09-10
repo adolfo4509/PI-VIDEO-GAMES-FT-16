@@ -1,51 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { searchVideogame, getVideogames } from "../Actions/actions";
+import { searchVideogame } from "../Redux/actions.js";
 
 export const Search = () => {
-  const [inputValue, setInputValue] = useState("");
-  // var videogameName = useSelector((state) => state.videoGameName);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(searchVideogame());
-  }, [dispatch]);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setInputValue(e.target.value);
-  };
+  const [input, setInput] = useState("");
+
   const handleChange = (e) => {
     e.preventDefault();
-    setInputValue(e.target.value);
-    dispatch(searchVideogame(e.target.value));
+    setInput(e.target.value);
   };
-  const handleClick = (e) => {
-    setInputValue(e.target.value);
-    dispatch(getVideogames());
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!input) {
+      return alert("Ingrese un videogame");
+    } else {
+      return dispatch(searchVideogame(input));
+    }
   };
   return (
-    <div>
-      <fieldset className="search">
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div>
-            <input
-              className="input_Search"
-              placeholder="Insert name"
-              type="text"
-              autoComplete="off"
-              value={inputValue}
-              onChange={(e) => handleChange(e)}
-            ></input>
-
-            <button
-              className="button_search"
-              type="submit"
-              onChange={(e) => handleClick(e)}
-            >
-              Search
-            </button>
-          </div>
-        </form>
-      </fieldset>
+    <div className="paginado">
+      <input
+        className="search_input"
+        type="text"
+        autoComplete="off"
+        placeholder="Inser Name"
+        name="input"
+        onChange={(e) => handleChange(e)}
+      />
+      <button
+        className="button_search"
+        type="submit"
+        onClick={(e) => {
+          handleSubmit(e);
+        }}
+      >
+        Search
+      </button>
     </div>
   );
 };

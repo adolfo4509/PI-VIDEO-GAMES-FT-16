@@ -14,15 +14,34 @@
   }
 }
 .select {
-  display: flex;
-  justify-content: space-between;
   border-radius: 1rem;
   background-color: #282c34;
   margin-top: 2rem;
-  padding: 0 2rem;
   align-items: center;
+}
+@media (min-width: 458px) {
+  .select {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 1rem;
+    background-color: #282c34;
+    margin-top: 2rem;
+    padding: 0 2rem;
+    align-items: center;
+  }
 }
 .ordenar {
   padding: 2rem;
   font-size: 1.5rem;
+}
+.search {
+  background-color: #282c34;
+}
+.select-css {
+  margin: 2rem;
+  background-color: #e4e7ec;
+}
+.select-css:focus {
+  outline: none;
+  box-shadow: none;
 }

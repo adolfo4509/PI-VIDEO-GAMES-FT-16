@@ -2,6 +2,7 @@
   max-width: 120rem;
   margin: 0 auto;
 }
+
 h1 {
   font-size: 1rem;
 }
@@ -10,9 +11,16 @@ h3 {
 }
 h4 {
   font-size: 1rem;
-  color: rgb(98, 98, 207);
+  color: rgb(207, 98, 202);
 }
-
+@media (min-width: 458px) {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-size: 1.3rem;
+  }
+}
 /*------------BUSCADOR-----------------------*/
 .input_Search {
   background-color: #14eb98;
@@ -27,24 +35,30 @@ h4 {
   margin-left: 0.5rem;
 }
 .cargar {
-  background-color: aqua;
+  margin-top: 1rem;
+  background-color: #282c34;
+  color: #eff2f9;
   border-radius: 0.3rem;
   border: hidden;
   cursor: pointer;
+  padding: 0.5rem;
 }
 .button_search:hover {
-  background-color: aqua;
+  background-color: rgba(0, 255, 255, 0.349);
   border-radius: 0.3rem;
   border: hidden;
   cursor: pointer;
 }
-.cards1 {
+.cards {
+  background-color: rgba(150, 185, 44, 0.247);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  border-radius: 1rem;
 }
 .image {
+  border-radius: 0.5rem;
   width: 300px;
   height: 250px;
 }
@@ -60,12 +74,31 @@ h4 {
   height: 40vmin;
   pointer-events: none;
 }
-.paginado {
-  padding: 1rem;
+.navBar {
   background-color: #282c34;
   display: flex;
   justify-content: space-between;
+}
+.nav_paginado {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+}
+.paginado {
+  background-color: #eff2f9;
+  display: flex;
+  justify-content: space-around;
   border: 1px solid #ffffff;
+  border-radius: 1rem;
+  margin-right: 1rem;
+}
+.search_input {
+  border: none;
+  border-radius: 0.5rem;
+}
+.search_input:focus {
+  outline: none;
+  box-shadow: none;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -96,14 +129,15 @@ h4 {
   }
   h4 {
     font-size: 1rem;
-    color: rgb(98, 98, 207);
+    color: rgb(7, 1, 36);
   }
 }
 
 .App-link {
+  font-size: 1.5rem;
   padding-right: 1rem;
   text-decoration: none;
-  color: #61dafb;
+  color: #fb61fb;
   cursor: pointer;
 }
 

@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Videogame, Genres } = require("../db");
+const { Videogames, Genres, Platforms } = require("../db");
 const { API_KEY } = process.env;
 
 const apiInfo = async () => {
@@ -42,7 +42,7 @@ const apiInfo = async () => {
   return infoTotal;
 };
 const getDbInfo = async () => {
-  return await Videogame.findAll({
+  return await Videogames.findAll({
     include: {
       model: Genres,
       attributes: ["genres"],
@@ -74,4 +74,21 @@ const getAllInfo = async () => {
 
   return totalApi;
 };
-module.exports = { apiInfo, getAllInfo };
+const platfor = async () => {
+  const plataformas = await apiInfo();
+  const plat = plataformas.map((e) => e.data.results).flat();
+  const platas = plat.map((e) => e.platforms).flat();
+  const ultima = platas.map((e) => {
+    return e.platform.name;
+  });
+
+  //AQUI SACO TODAS LAS PLATAFORMAS
+
+  let tempoPlatf = [...new Set(ultima)].sort();
+  let platf = await tempoPlatf.map((e) => {
+    return { platforms: e };
+  });
+
+  return platf;
+};
+module.exports = { apiInfo, getAllInfo, platfor };

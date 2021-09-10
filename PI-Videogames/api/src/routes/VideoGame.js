@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 const { Router } = require("express");
-const { Videogame, Genres } = require("../db.js");
+const { Videogames, Genres } = require("../db.js");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { getAllInfo } = require("./functions.js");
@@ -12,8 +12,12 @@ Obtener un listado de los videojuegos
 Debe devolver solo los datos necesarios para la ruta principal
 */
 router.get("/videogames", async (req, res, next) => {
-  const gameAll = await getAllInfo();
-  res.status(200).json(gameAll);
+  try {
+    const gameAll = await getAllInfo();
+    res.status(200).json(gameAll);
+  } catch (error) {
+    next(error);
+  }
 });
 
 /*
@@ -37,16 +41,19 @@ router.get("/videogame/:name", async (req, res, next) => {
         id: temp.data.id,
         name: temp.data.name,
         image: temp.data.background_image,
-        genresName: temp.data.genres.map((e) => e.name),
+        genres: temp.data.genres.map((e) => e.name),
         platforms: temp.data.platforms.map((e) => e.platform.name),
-        description: temp.data.description,
+        rating: temp.data.rating,
+        released: temp.data.released,
+        description: temp.data.description
+          .replace(/<[^>]*>?/g, "")
+          .replace(/(\r\n|\n|\r)/gm, ""),
       });
     }
 
     res.status(200).json(nameVideogame);
   } catch (error) {
-    console.log(error);
-    res.status(404).send("Videogame no encontrado, lo sentimos");
+    next(error);
   }
 });
 
@@ -56,7 +63,7 @@ Obtener el detalle de un videojuego en particular
 Debe traer solo los datos pedidos en la ruta de detalle de videojuego
 Incluir los géneros asociados
 */
-router.get("/videogames/:id", async (req, res) => {
+router.get("/videogames/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     let infoApiUrl = await axios.get(
@@ -75,7 +82,7 @@ router.get("/videogames/:id", async (req, res) => {
       };
     });
     let videogameDb = async () => {
-      return await Videogame.findAll({
+      return await Videogames.findAll({
         include: {
           model: Genres,
           attributes: ["genresName"],
@@ -99,7 +106,7 @@ router.get("/videogames/:id", async (req, res) => {
       res.status(200).json(videogameId);
     }
   } catch (error) {
-    res.status(404).send({ mess: "Videogame no encontrado, lo sentimos" });
+    next(error);
   }
 });
 
@@ -115,7 +122,7 @@ Crea un videojuego en la base de datos
 ** Posibilidad de seleccionar/agregar varios géneros
 ** Posibilidad de seleccionar/agregar varias plataformas
 */
-router.post("/videogame", async (req, res) => {
+router.post("/videogame", async (req, res, next) => {
   const {
     name,
     description,
@@ -126,30 +133,30 @@ router.post("/videogame", async (req, res) => {
     platforms,
     image,
   } = req.body;
-  // try {
-  const videogameCreate = await Videogame.create({
-    name,
-    image,
-    description,
-    released,
-    rating,
-    genres,
-    platforms,
-    createdInDb,
-  });
+  try {
+    const videogameCreate = await Videogames.create({
+      name,
+      image,
+      description,
+      released,
+      rating,
+      genres,
+      platforms,
+      createdInDb,
+    });
 
-  let genresDb = await Genres.findAll({
-    where: { genres: "genres" },
-    include: {
-      model: Videogame,
-    },
-  });
+    let genresDb = await Genres.findAll({
+      where: { genres: genres },
+      include: {
+        model: Videogames,
+      },
+    });
 
-  videogameCreate.addGenres(genresDb);
+    videogameCreate.addGenres(genresDb);
 
-  res.status(200).send("Videogame agregado con exito");
-  // } catch {
-  //   res.status(404).send("verifique los datos");
-  // }
+    res.status(200).json(videogameCreate);
+  } catch (error) {
+    next(error);
+  }
 });
 module.exports = router;

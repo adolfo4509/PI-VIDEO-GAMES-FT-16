@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card/Card";
-//import SearchCard from "../Card/SearchCard";
 import Paginado from "../Paginado/Paginado";
 import {
   getVideogames,
   selectGameGenres,
   fileterByGenres,
-  searchVideogame,
-} from "../Actions/actions";
+  orderByName,
+  orderByRating,
+} from "../Redux/actions";
 import "./home.css";
-import { Search } from "../Search/Search";
+import Nav from "../Nav/Nav";
 
 function Home() {
-  // console.log("=========", allVideogame);
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
   const [, setOrden] = useState();
@@ -38,9 +37,7 @@ function Home() {
   useEffect(() => {
     dispatch(selectGameGenres());
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(searchVideogame());
-  }, [dispatch]);
+
   const handleClick = (e) => {
     e.preventDefault();
     setOrden(e.target.value);
@@ -51,44 +48,64 @@ function Home() {
     setOrden(e.target.value);
     dispatch(fileterByGenres(e.target.value));
   };
-
+  function handleSort(e) {
+    e.preventDefault();
+    dispatch(orderByName(e.target.value));
+    dispatch(orderByRating(e.target.value));
+    setCurrentPage(1);
+    setOrden(e.target.value);
+    //console.log(orderByName());
+  }
   return (
     <div className="container">
+      <Nav />
+      <button
+        className="cargar"
+        onClick={(e) => {
+          handleClick(e);
+        }}
+      >
+        Cargar de nuevo
+      </button>
       <div className="select">
-        <button
-          className="cargar"
-          onClick={(e) => {
-            handleClick(e);
-          }}
-        >
-          Cargar de nuevo
-        </button>
-        <div>
-          <Search />
-        </div>
-        <div>
-          <h3>Filtrar por los Generos</h3>
-          <select className="select-css" onChange={(e) => handleOnChange(e)}>
-            <option>Selecciona una opción</option>
-            {allGenres.map(({ ID, genres }) => {
-              return (
-                <option key={ID} value={genres}>
-                  {genres}
-                </option>
-              );
-            })}
-          </select>
-          <select>
-            <option>Videogame </option>
-          </select>
-        </div>
+        <h3>Filtrar por Generos</h3>
+        <select className="select-css" onChange={(e) => handleOnChange(e)}>
+          <option>Selecciona una opción</option>
+          {allGenres.map(({ ID, genres }) => {
+            return (
+              <option key={ID} value={genres}>
+                {genres}
+              </option>
+            );
+          })}
+        </select>
+        <h3>Filtrar en Orden </h3>
+        <select onChange={(e) => handleSort(e)}>
+          <option className="ordenar" value="asc">
+            Ascendente
+          </option>
+          <option className="ordenar" value="des">
+            Descendente
+          </option>
+          <option className="ordenar" value="rating">
+            Mayor Rating
+          </option>
+          <option className="ordenar" value="Menor-ratin">
+            Menor Rating
+          </option>
+        </select>
+        <select>
+          <option>Videogame existente</option>
+          <option>Agregado por nosotros</option>
+        </select>
       </div>
+
       <Paginado
-        className="paginado"
         breadsPerPage={breadsPerPage}
         allvideogame={allVideogame}
         paginado={paginado}
       />
+
       <div className="cards_breads">
         {currentBreads &&
           currentBreads.map((d) => {
@@ -97,6 +114,9 @@ function Home() {
                 name={d.name}
                 genres={d.genres}
                 platforms={d.platforms}
+                released={d.released}
+                rating={d.rating}
+                description={d.description}
                 image={d.image}
                 key={d.id}
               ></Card>
