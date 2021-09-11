@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 const { Router } = require("express");
-const { Videogames, Genres } = require("../db.js");
+const { Videogame, Genres } = require("../db.js");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { getAllInfo } = require("./functions.js");
@@ -77,15 +77,18 @@ router.get("/videogames/:id", async (req, res, next) => {
         background_image: e.background_image,
         released: e.released,
         rating: e.rating,
+        genres: e.genres.map((e) => e.name),
         platforms: e.platforms.map((e) => e.platform.name),
-        description: e.description,
+        description: e.description
+          .replace(/<[^>]*>?/g, "")
+          .replace(/(\r\n|\n|\r)/gm, ""),
       };
     });
     let videogameDb = async () => {
-      return await Videogames.findAll({
+      return await Videogame.findAll({
         include: {
           model: Genres,
-          attributes: ["genresName"],
+          attributes: ["genres"],
           through: {
             attributes: [],
           },
@@ -101,7 +104,7 @@ router.get("/videogames/:id", async (req, res, next) => {
     };
     let videogameAll = await getAllInfo();
     if (id) {
-      let videogameId = await videogameAll.filter((e) => e.id == id.toString());
+      let videogameId = videogameAll.filter((e) => e.id == id.toString());
       videogameId.length;
       res.status(200).json(videogameId);
     }
@@ -134,7 +137,7 @@ router.post("/videogame", async (req, res, next) => {
     image,
   } = req.body;
   try {
-    const videogameCreate = await Videogames.create({
+    const videogameCreate = await Videogame.create({
       name,
       image,
       description,
@@ -146,9 +149,9 @@ router.post("/videogame", async (req, res, next) => {
     });
 
     let genresDb = await Genres.findAll({
-      where: { genres: genres },
+      where: { genres: "genres" },
       include: {
-        model: Videogames,
+        model: Videogame,
       },
     });
 

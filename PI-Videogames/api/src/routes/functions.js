@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Videogames, Genres, Platforms } = require("../db");
+const { Videogame, Genres } = require("../db");
 const { API_KEY } = process.env;
 
 const apiInfo = async () => {
@@ -42,7 +42,7 @@ const apiInfo = async () => {
   return infoTotal;
 };
 const getDbInfo = async () => {
-  return await Videogames.findAll({
+  return await Videogame.findAll({
     include: {
       model: Genres,
       attributes: ["genres"],

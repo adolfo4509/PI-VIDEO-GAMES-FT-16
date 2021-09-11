@@ -77,7 +77,7 @@ const CreateVideogame = () => {
     dispatch(getPlatforms());
   }, [dispatch]);
   return (
-    <div>
+    <div className="created">
       <Nav />
       <div className="form_videogame">
         <h1>Crear videogame</h1>

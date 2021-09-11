@@ -4,6 +4,8 @@ import {
   GENRES_URL,
   VIDEOGAMENAME_URL,
   BASE_PLATAFORMS,
+  VIDEOGAMEID_URL,
+  VIDEOGAME_CREATE_URL,
 } from "../Constantes/Constans";
 export const GET_VIDEOGAME = "GET_VIDEOGAME";
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
@@ -84,7 +86,7 @@ export function getGenres() {
 }
 export function postVideogame(payload) {
   return async function (dispatch) {
-    const resp = await axios.post("VIDEOGAME_CREATE_URL", payload);
+    const resp = await axios.post(VIDEOGAME_CREATE_URL + payload);
     return {
       type: GET_GENRES,
       resp,
@@ -105,7 +107,7 @@ export const getPlatforms = () => {
 export const getVideogameDetail = (id) => {
   return async (dispatch) => {
     try {
-      var json = await axios.get("VIDEOGAMEID_URL", id);
+      var json = await axios.get(VIDEOGAMEID_URL + id);
       return dispatch({
         type: GET_VIDEOGAME_DETAIL,
         payload: json.data,

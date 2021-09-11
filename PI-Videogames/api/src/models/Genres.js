@@ -5,8 +5,6 @@ module.exports = (sequelize) => {
     genres: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      primaryKey: true,
     },
   });
 };
