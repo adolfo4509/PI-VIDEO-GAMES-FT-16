@@ -4,7 +4,6 @@ import "./landing.css";
 const Landing = () => {
   return (
     <div className="landing">
-      <div className="spiner1"></div>
       <div>
         <h3> Landing...</h3>
       </div>

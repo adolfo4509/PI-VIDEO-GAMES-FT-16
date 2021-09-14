@@ -8,6 +8,7 @@ import {
   fileterByGenres,
   orderByName,
   orderByRating,
+  filterCreate,
 } from "../Redux/actions";
 import "./home.css";
 import Nav from "../Nav/Nav";
@@ -15,7 +16,9 @@ import Nav from "../Nav/Nav";
 function Home() {
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
+  // console.log("Generos desde la base de datos", allGenres);
   const [, setOrden] = useState();
+
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [breadsPerPage] = useState(15);
@@ -25,7 +28,9 @@ function Home() {
     indexOfFirtsBreads,
     indexOfLastBreads
   );
-
+  console.log("currentPage", currentPage);
+  console.log("indexOfFirtsBreads", indexOfFirtsBreads);
+  console.log("indexOfLastBreads", indexOfLastBreads);
   //Declaramos una constante paginado como funcion
   const paginado = (pageNum) => {
     setCurrentPage(pageNum);
@@ -37,7 +42,9 @@ function Home() {
   useEffect(() => {
     dispatch(selectGameGenres());
   }, [dispatch]);
-
+  useEffect(() => {
+    dispatch(filterCreate());
+  }, [dispatch]);
   const handleClick = (e) => {
     e.preventDefault();
     setOrden(e.target.value);
@@ -48,14 +55,24 @@ function Home() {
     setOrden(e.target.value);
     dispatch(fileterByGenres(e.target.value));
   };
-  function handleSort(e) {
+  function handleSortAsc(e) {
     e.preventDefault();
     dispatch(orderByName(e.target.value));
+    setCurrentPage(1);
+    setOrden(e.target.value);
+  }
+  function handleSort(e) {
+    e.preventDefault();
     dispatch(orderByRating(e.target.value));
     setCurrentPage(1);
     setOrden(e.target.value);
-    //console.log(orderByName());
   }
+  const handleOrderCreated = (e) => {
+    //console.log("ESTOS SON LOS FILTROS", e);
+    e.preventDefault();
+    dispatch(filterCreate(e.target.value));
+    setOrden(e.target.value);
+  };
   return (
     <div className="container">
       <Nav />
@@ -71,33 +88,44 @@ function Home() {
         <h3>Filtrar por Generos</h3>
         <select className="select-css" onChange={(e) => handleOnChange(e)}>
           <option>Selecciona una opción</option>
-          {allGenres.map(({ ID, genres }) => {
+          {allGenres.map(({ ID, name }) => {
             return (
-              <option key={ID} value={genres}>
-                {genres}
+              <option key={ID} value={name}>
+                {name}
               </option>
             );
           })}
         </select>
-        <h3>Filtrar en Orden </h3>
-        <select onChange={(e) => handleSort(e)}>
-          <option className="ordenar" value="asc">
-            Ascendente
-          </option>
-          <option className="ordenar" value="des">
-            Descendente
-          </option>
-          <option className="ordenar" value="rating">
-            Mayor Rating
-          </option>
-          <option className="ordenar" value="Menor-ratin">
-            Menor Rating
-          </option>
-        </select>
-        <select>
-          <option>Videogame existente</option>
-          <option>Agregado por nosotros</option>
-        </select>
+        <div className="filter_orden">
+          <h3>Filtrar en Orden </h3>
+          <select onChange={(e) => handleSortAsc(e)} className="filter_select">
+            <option className="ordenar" value="Asc">
+              Ascendente
+            </option>
+            <option className="ordenar" value="des">
+              Descendente
+            </option>
+          </select>
+          <select onChange={(e) => handleSort(e)} className="filter_select">
+            <option className="ordenar" value="Mayor-rating">
+              Mayor Rating
+            </option>
+            <option className="ordenar" value="Menor-ratin">
+              Menor Rating
+            </option>
+          </select>
+          <select
+            onChange={(e) => handleOrderCreated(e)}
+            className="filter_select"
+          >
+            <option className="ordenar" value="All">
+              Videogame existente
+            </option>
+            <option className="ordenar" value="Created">
+              Agregado por nosotros
+            </option>
+          </select>
+        </div>
       </div>
 
       <Paginado

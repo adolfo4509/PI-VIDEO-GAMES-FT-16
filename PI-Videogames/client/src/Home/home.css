@@ -1,5 +1,4 @@
 .cards_breads {
-  display: grid;
   grid-template-rows: auto;
   grid-gap: 10px;
   min-width: 90%;
@@ -11,6 +10,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     width: 4rem;
+    min-width: 90%;
   }
 }
 .select {
@@ -18,6 +18,16 @@
   background-color: #282c34;
   margin-top: 2rem;
   align-items: center;
+  padding-bottom: 2rem;
+}
+.filter_orden {
+  display: inline-grid;
+  padding-bottom: 1rem;
+}
+.filter_select {
+  margin-right: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 @media (min-width: 458px) {
   .select {
@@ -29,10 +39,19 @@
     padding: 0 2rem;
     align-items: center;
   }
+  .filter_select {
+    margin-right: 1rem;
+  }
+  .filter_orden {
+    display: table-row;
+    padding-bottom: 1rem;
+  }
 }
 .ordenar {
+  text-align: center;
   padding: 2rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
+  background-color: cyan;
 }
 .search {
   background-color: #282c34;

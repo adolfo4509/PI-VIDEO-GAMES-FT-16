@@ -21,7 +21,18 @@ const CreateVideogame = () => {
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
-  //console.log(platforms);
+
+  useEffect(() => {
+    dispatch(getGenres());
+    dispatch(getPlatforms());
+  }, [dispatch]);
+  const Options = platforms.map((e, i) => {
+    return (
+      <option key={i} value={e.platforms}>
+        {e.name}
+      </option>
+    );
+  });
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -50,17 +61,19 @@ const CreateVideogame = () => {
       genres: [...input.genres, e.target.value],
     });
   };
-
+  // console.log("SOY SETINPUT=>", setInput());
   const handleSelectPlatforms = (e) => {
     setInput({
       ...input,
-      platforms: [...input.platforms, e.target.value],
+      platforms: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(postVideogame(input));
+    // console.log(input);
+
+    await postVideogame(input);
     alert("Videogame creado con exito");
     setInput({
       name: "",
@@ -72,10 +85,8 @@ const CreateVideogame = () => {
       platforms: [],
     });
   };
-  useEffect(() => {
-    dispatch(getGenres());
-    dispatch(getPlatforms());
-  }, [dispatch]);
+
+  //console.log("========>", input);
   return (
     <div className="created">
       <Nav />
@@ -87,7 +98,7 @@ const CreateVideogame = () => {
           }}
         >
           <div className="data_input">
-            <div>
+            <div className="datos">
               <label>Name:</label>
               <input
                 type="text"
@@ -97,7 +108,7 @@ const CreateVideogame = () => {
               />
               {errors.name && <p>{errors.name}</p>}
             </div>
-            <div>
+            <div className="datos">
               <label>Released:</label>
               <input
                 type="text"
@@ -107,7 +118,7 @@ const CreateVideogame = () => {
               />
               {errors.released && <p>{errors.released}</p>}
             </div>
-            <div>
+            <div className="datos">
               <label>Rating:</label>
               <input
                 type="text"
@@ -117,23 +128,31 @@ const CreateVideogame = () => {
               />
               {errors.rating && <p>{errors.rating}</p>}
             </div>
-            <div>
+            <div className="datos">
+              <label>Description:</label>
+              <input
+                type="text"
+                value={input.description}
+                name="description"
+                onChange={(e) => handleChange(e)}
+              />
+              {errors.description && <p>{errors.description}</p>}
+            </div>
+            <div className="datos">
               <label>Genres:</label>
               <select onChange={(e) => handleSelect(e)}>
                 {genres.map((gen) => (
-                  <option value={gen.genres}>{gen.genres}</option>
+                  <option value={gen.name}>{gen.name}</option>
                 ))}
               </select>
-              <h4>{input.genres.map((e) => e + ",")}</h4>
+              <h4>{input.genres.map((e) => e.name + ", ")}</h4>
             </div>
-            <div>
+            <div className="datos">
               <label>Platforms:</label>
               <select onChange={(e) => handleSelectPlatforms(e)}>
-                {platforms.map((gen) => (
-                  <option value={gen.platforms}>{gen.platforms}</option>
-                ))}
+                {Options}
               </select>
-              <h4>{input.platforms.map((e) => e + ",")}</h4>
+              <h4>{input.platforms}</h4>
             </div>
             <div>
               <label>image:</label>

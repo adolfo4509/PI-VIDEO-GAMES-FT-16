@@ -4,6 +4,7 @@ const { Videogame, Genres } = require("../db.js");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { getAllInfo } = require("./functions.js");
+const { v4: uuidv4 } = require("uuid");
 const router = Router();
 
 /*
@@ -41,8 +42,8 @@ router.get("/videogame/:name", async (req, res, next) => {
         id: temp.data.id,
         name: temp.data.name,
         image: temp.data.background_image,
-        genres: temp.data.genres.map((e) => e.name),
-        platforms: temp.data.platforms.map((e) => e.platform.name),
+        genres: temp.data.genres.map((e) => e.name + ", "),
+        platforms: temp.data.platforms.map((e) => e.platform.name + ", "),
         rating: temp.data.rating,
         released: temp.data.released,
         description: temp.data.description
@@ -69,7 +70,7 @@ router.get("/videogames/:id", async (req, res, next) => {
     let infoApiUrl = await axios.get(
       ` https://api.rawg.io/api/games/${id}?key=${API_KEY}`
     );
-    const videogameDetail = await infoApiUrl;
+    const videogameDetail = infoApiUrl;
     let infoId = [videogameDetail.data].map((e) => {
       return {
         id: e.id,
@@ -88,7 +89,7 @@ router.get("/videogames/:id", async (req, res, next) => {
       return await Videogame.findAll({
         include: {
           model: Genres,
-          attributes: ["genres"],
+          attributes: ["name"],
           through: {
             attributes: [],
           },
@@ -96,16 +97,17 @@ router.get("/videogames/:id", async (req, res, next) => {
       });
     };
     const getAllInfo = async () => {
-      const apiInfo = await infoId;
+      //const apiInfo = infoId;
       const dbInfo = await videogameDb();
-      const totalApi = apiInfo.concat(dbInfo);
+      const totalApi = infoId.concat(dbInfo);
 
       return totalApi;
     };
     let videogameAll = await getAllInfo();
+    console.log("videoGameAll========>", videogameAll, "TERMINA");
     if (id) {
       let videogameId = videogameAll.filter((e) => e.id == id.toString());
-      videogameId.length;
+      //videogameId.length;
       res.status(200).json(videogameId);
     }
   } catch (error) {
@@ -136,8 +138,10 @@ router.post("/videogame", async (req, res, next) => {
     platforms,
     image,
   } = req.body;
+
   try {
     const videogameCreate = await Videogame.create({
+      id: uuidv4(),
       name,
       image,
       description,
@@ -147,17 +151,17 @@ router.post("/videogame", async (req, res, next) => {
       platforms,
       createdInDb,
     });
-
-    let genresDb = await Genres.findAll({
-      where: { genres: "genres" },
+    //   console.log("videogameCreate", videogameCreate);
+    await videogameCreate.setGenres(genres);
+    let genresDb = await Videogame.findAll({
       include: {
-        model: Videogame,
+        model: Genres,
       },
     });
 
     videogameCreate.addGenres(genresDb);
 
-    res.status(200).json(videogameCreate);
+    res.status(200).send(videogameCreate);
   } catch (error) {
     next(error);
   }

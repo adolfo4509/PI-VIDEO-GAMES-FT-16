@@ -1,6 +1,7 @@
 import React from "react";
 import "../App.css";
 const Card = ({ name, image, genres, platforms, description, rating }) => {
+  console.log("PLataformas", platforms);
   return (
     <div className="cards">
       <h4>Videogame: {name} </h4>

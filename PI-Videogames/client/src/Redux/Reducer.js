@@ -9,6 +9,7 @@ const {
   POST_VIDEOGAME,
   GET_PLATFORMS,
   GET_VIDEOGAME_DETAIL,
+  FILTER_CREATE,
 } = require("./actions");
 
 const inicialState = {
@@ -17,6 +18,7 @@ const inicialState = {
   genres: [],
   platforms: [],
   videogameDetail: [],
+  videogameCreated: [],
 };
 
 function rootReducer(state = inicialState, action) {
@@ -46,7 +48,7 @@ function rootReducer(state = inicialState, action) {
       };
     case ORDER_BY_NAME:
       let sortArr =
-        action.payload === "asc"
+        action.payload === "Asc"
           ? state.videogameLoad.sort((a, b) => {
               if (a.name > b.name) {
                 return 1;
@@ -71,7 +73,7 @@ function rootReducer(state = inicialState, action) {
       };
     case MOSTRAR_BY_RATING:
       let filterByRating =
-        action.payload === "rating"
+        action.payload === "Mayor-rating"
           ? state.videogameLoad.sort((a, b) => {
               if (a.rating > b.rating) {
                 return -1;
@@ -84,7 +86,7 @@ function rootReducer(state = inicialState, action) {
               if (a.rating > b.rating) {
                 return 1;
               }
-              if (b.rating < a.rating) {
+              if (b.rating > a.rating) {
                 return -1;
               }
               return 0;
@@ -112,6 +114,19 @@ function rootReducer(state = inicialState, action) {
       return {
         ...state,
         videogameDetail: action.payload,
+      };
+    case FILTER_CREATE:
+      const allvideogame = state.videogameLoad;
+      const createdFilter =
+        action.payload === "Created"
+          ? allvideogame.filter((el) => el.createInDb)
+          : allvideogame.filter((el) => !el.createInDb);
+      //console.log("=====> LOS FILTROS DESDE EL REDUCER", createdFilter);
+
+      return {
+        ...state,
+        videogameLoad:
+          action.payload === "All" ? state.videogameLoad : createdFilter,
       };
     default:
       return state;

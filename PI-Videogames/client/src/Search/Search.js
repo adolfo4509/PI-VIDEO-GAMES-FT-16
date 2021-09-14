@@ -24,7 +24,7 @@ export const Search = () => {
         className="search_input"
         type="text"
         autoComplete="off"
-        placeholder="Inser Name"
+        placeholder="Insert Name"
         name="input"
         onChange={(e) => handleChange(e)}
       />

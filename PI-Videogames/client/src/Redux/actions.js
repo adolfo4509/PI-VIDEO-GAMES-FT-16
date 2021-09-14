@@ -17,6 +17,7 @@ export const GET_GENRES = "GET_GENRES";
 export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const GET_PLATFORMS = "GET_PLATFORMS";
 export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
+export const FILTER_CREATE = "FILTER_CREATE";
 
 export const getVideogames = () => {
   return (dispatch) => {
@@ -84,14 +85,10 @@ export function getGenres() {
     }
   };
 }
-export function postVideogame(payload) {
-  return async function (dispatch) {
-    const resp = await axios.post(VIDEOGAME_CREATE_URL + payload);
-    return {
-      type: GET_GENRES,
-      resp,
-    };
-  };
+export async function postVideogame(payload) {
+  console.log("Desde post", payload);
+
+  await axios.post(VIDEOGAME_CREATE_URL, payload);
 }
 
 export const getPlatforms = () => {
@@ -117,3 +114,6 @@ export const getVideogameDetail = (id) => {
     }
   };
 };
+export function filterCreate(payload) {
+  return { type: FILTER_CREATE, payload };
+}

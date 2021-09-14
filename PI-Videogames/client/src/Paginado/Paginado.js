@@ -11,6 +11,7 @@ export default function Paginado({ breadsPerPage, paginado }) {
 
   return (
     <div>
+      <p>Páginas</p>
       <nav className="nav_paginado">
         {pageNumbers &&
           pageNumbers.map((number) => (

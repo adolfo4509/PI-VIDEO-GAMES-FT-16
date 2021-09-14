@@ -1,14 +1,32 @@
 .form_videogame {
-  background-color: yellow;
+  background-color: rgb(240, 240, 228);
   margin: 2rem auto 0 auto;
-  width: 80%;
-  padding: 5rem;
+  width: 70%;
+  padding: 3rem;
 }
 .data_input {
-  display: flex;
-  justify-content: space-between;
-  padding-left: 2rem;
+  display: block;
+  padding-bottom: 2rem;
 }
 body {
   background-color: black;
+}
+.datos {
+  padding-bottom: 1rem;
+}
+label {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1rem;
+  padding-right: 0.2rem;
+  font-weight: bold;
+}
+button {
+  background-color: rgb(127, 150, 255);
+  cursor: pointer;
+  border: 2px solid red;
+  border-radius: 0.3rem;
+}
+button:hover {
+  background-color: rgb(43, 226, 226);
 }

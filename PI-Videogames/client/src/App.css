@@ -1,9 +1,14 @@
 .container {
-  background-color: black;
   max-width: 120rem;
   margin: 0 auto;
 }
-
+@media (min-width: 768px) {
+  .container {
+    background-color: black;
+    max-width: 120rem;
+    margin: 0 auto;
+  }
+}
 h1 {
   font-size: 1rem;
 }
@@ -24,17 +29,47 @@ h4 {
 }
 /*------------BUSCADOR-----------------------*/
 .input_Search {
+  text-align: center;
   background-color: #14eb98;
   padding: 0.8rem;
   border-radius: 2rem;
 }
+
+/* Boton de buscar*/
 .button_search {
-  font-size: 1.6rem;
+  font-size: 0.8rem;
   border-radius: 0.5rem;
   border: hidden;
-  color: #fb61cd;
+  color: #f1eaef;
   margin-left: 0.5rem;
 }
+@media (min-width: 768px) {
+  .button_search {
+    font-size: 1.6rem;
+    border-radius: 0.5rem;
+    border: hidden;
+    color: #f1eaef;
+    margin-left: 0.5rem;
+  }
+}
+.search_input {
+  font-size: 0.9rem;
+  text-align: center;
+  border: none;
+  border-radius: 0.5rem;
+}
+.search_input:focus {
+  outline: none;
+  box-shadow: none;
+}
+@media (min-width: 768px) {
+  .search_input {
+    font-size: 1.6rem;
+    border: none;
+    border-radius: 0.5rem;
+  }
+}
+/*--------------------------------*/
 .cargar {
   margin-top: 1rem;
   background-color: #282c34;
@@ -42,7 +77,8 @@ h4 {
   border-radius: 0.3rem;
   border: hidden;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.2rem;
+  font-size: 0.8rem;
 }
 .button_search:hover {
   background-color: rgba(0, 255, 255, 0.349);
@@ -52,12 +88,20 @@ h4 {
 }
 .cards {
   background-color: rgba(218, 224, 199, 0.849);
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
   border-radius: 0.2rem;
   padding-bottom: 0.8rem;
+}
+@media (min-width: 768px) {
+  .cards {
+    background-color: rgba(218, 224, 199, 0.849);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 0.2rem;
+    padding-bottom: 0.8rem;
+  }
 }
 .image {
   border-radius: 0.5rem;
@@ -83,25 +127,10 @@ h4 {
 }
 .nav_paginado {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin: 0 1rem;
 }
-.paginado {
-  background-color: #eff2f9;
-  display: flex;
-  justify-content: space-around;
-  border: 1px solid #ffffff;
-  border-radius: 1rem;
-  margin-right: 1rem;
-}
-.search_input {
-  border: none;
-  border-radius: 0.5rem;
-}
-.search_input:focus {
-  outline: none;
-  box-shadow: none;
-}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -139,7 +168,7 @@ h4 {
   font-size: 1.5rem;
   padding-right: 1rem;
   text-decoration: none;
-  color: #fb61fb;
+  color: #f1eaef;
   cursor: pointer;
 }
 
