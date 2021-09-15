@@ -44,7 +44,7 @@ const getAllInfo = async () => {
       rating: e.rating,
       released: e.released,
       genres: e.genres.map((e) => e.name + " "),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name + " "),
+      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
     };
   });
 
@@ -54,17 +54,20 @@ const getAllInfo = async () => {
   return totalApi;
 };
 const platfor = async () => {
-  const plataformas = await getAllInfo();
-
+  const plataformas = await apiInfo();
   const plat = plataformas.map((e) => e.platforms).flat();
-
-  //AQUI SACO TODAS LAS PLATAFORMAS
-
-  let tempoPlatf = [...new Set(plat)].sort();
-  let platf = tempoPlatf.map((e) => {
-    return { name: e };
+  const temp = plat.map((e) => e.platform);
+  const plataformaFilter = temp.map((e) => e.name);
+  const filteredArray = plataformaFilter.filter((ele, pos) => {
+    return plataformaFilter.indexOf(ele) == pos;
   });
-  // console.log("PLATAFORMAS", platf);
+  //AQUI SACO TODAS LAS PLATAFORMAS
+  let platf = filteredArray
+    .map((e) => {
+      return { name: e };
+    })
+    .sort();
+
   return platf;
 };
 module.exports = { apiInfo, getAllInfo, platfor };
