@@ -7,7 +7,6 @@ import("./detail.css");
 const Detail = (props) => {
   const dispatch = useDispatch();
   const myVideogame = useSelector((e) => e.videogameDetail);
-  //console.log("detalles", myVideogame);
   useEffect(() => {
     dispatch(getVideogameDetail(props.match.params.id));
   }, [dispatch, props.match.params.id]);

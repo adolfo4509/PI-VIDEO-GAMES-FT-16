@@ -86,8 +86,6 @@ export function getGenres() {
   };
 }
 export async function postVideogame(payload) {
-  console.log("Desde post", payload);
-
   await axios.post(VIDEOGAME_CREATE_URL, payload);
 }
 

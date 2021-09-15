@@ -16,22 +16,18 @@ import Nav from "../Nav/Nav";
 function Home() {
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
-  // console.log("Generos desde la base de datos", allGenres);
   const [, setOrden] = useState();
 
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const [breadsPerPage] = useState(15);
-  const indexOfLastBreads = currentPage * breadsPerPage;
-  const indexOfFirtsBreads = indexOfLastBreads - breadsPerPage;
+  const [videogamePerPage] = useState(15);
+  const indexOfLastvideogame = currentPage * videogamePerPage;
+  const indexOfFirtsvideogame = indexOfLastvideogame - videogamePerPage;
   const currentBreads = allVideogame.slice(
-    indexOfFirtsBreads,
-    indexOfLastBreads
+    indexOfFirtsvideogame,
+    indexOfLastvideogame
   );
-  console.log("currentPage", currentPage);
-  console.log("indexOfFirtsBreads", indexOfFirtsBreads);
-  console.log("indexOfLastBreads", indexOfLastBreads);
-  //Declaramos una constante paginado como funcion
+
   const paginado = (pageNum) => {
     setCurrentPage(pageNum);
   };
@@ -68,7 +64,6 @@ function Home() {
     setOrden(e.target.value);
   }
   const handleOrderCreated = (e) => {
-    //console.log("ESTOS SON LOS FILTROS", e);
     e.preventDefault();
     dispatch(filterCreate(e.target.value));
     setOrden(e.target.value);
@@ -129,7 +124,7 @@ function Home() {
       </div>
 
       <Paginado
-        breadsPerPage={breadsPerPage}
+        videogamePerPage={videogamePerPage}
         allvideogame={allVideogame}
         paginado={paginado}
       />

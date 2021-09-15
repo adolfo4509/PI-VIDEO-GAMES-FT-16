@@ -21,7 +21,6 @@ const CreateVideogame = () => {
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
-
   useEffect(() => {
     dispatch(getGenres());
     dispatch(getPlatforms());
@@ -61,7 +60,7 @@ const CreateVideogame = () => {
       genres: [...input.genres, e.target.value],
     });
   };
-  // console.log("SOY SETINPUT=>", setInput());
+
   const handleSelectPlatforms = (e) => {
     setInput({
       ...input,
@@ -71,8 +70,6 @@ const CreateVideogame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(input);
-
     await postVideogame(input);
     alert("Videogame creado con exito");
     setInput({
@@ -86,7 +83,6 @@ const CreateVideogame = () => {
     });
   };
 
-  //console.log("========>", input);
   return (
     <div className="created">
       <Nav />
@@ -145,7 +141,7 @@ const CreateVideogame = () => {
                   <option value={gen.name}>{gen.name}</option>
                 ))}
               </select>
-              <h4>{input.genres.map((e) => e.name + ", ")}</h4>
+              <h4>{input.genres}</h4>
             </div>
             <div className="datos">
               <label>Platforms:</label>

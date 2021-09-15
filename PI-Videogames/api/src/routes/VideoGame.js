@@ -104,7 +104,7 @@ router.get("/videogames/:id", async (req, res, next) => {
       return totalApi;
     };
     let videogameAll = await getAllInfo();
-    console.log("videoGameAll========>", videogameAll, "TERMINA");
+    // console.log("videoGameAll========>", videogameAll, "TERMINA");
     if (id) {
       let videogameId = videogameAll.filter((e) => e.id == id.toString());
       //videogameId.length;
@@ -152,7 +152,7 @@ router.post("/videogame", async (req, res, next) => {
       createdInDb,
     });
     //   console.log("videogameCreate", videogameCreate);
-    await videogameCreate.setGenres(genres);
+    // await videogameCreate.setGenres(genres);
     let genresDb = await Videogame.findAll({
       include: {
         model: Genres,
