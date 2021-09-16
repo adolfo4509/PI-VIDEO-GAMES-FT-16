@@ -107,7 +107,7 @@ const CreateVideogame = () => {
             <div className="datos">
               <label>Released:</label>
               <input
-                type="text"
+                type="date"
                 value={input.released}
                 name="released"
                 onChange={(e) => handleChange(e)}
@@ -138,7 +138,7 @@ const CreateVideogame = () => {
               <label>Genres:</label>
               <select onChange={(e) => handleSelect(e)}>
                 {genres.map((gen) => (
-                  <option value={gen.name}>{gen.name}</option>
+                  <option value={gen.id}>{gen.name}</option>
                 ))}
               </select>
               <h4>{input.genres}</h4>

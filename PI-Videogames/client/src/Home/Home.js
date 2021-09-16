@@ -77,7 +77,7 @@ function Home() {
           handleClick(e);
         }}
       >
-        Cargar de nuevo
+        Regresar
       </button>
       <div className="select">
         <h3>Filtrar por Generos</h3>
@@ -134,6 +134,7 @@ function Home() {
           currentBreads.map((d) => {
             return (
               <Card
+                id={d.id}
                 name={d.name}
                 genres={d.genres}
                 platforms={d.platforms}

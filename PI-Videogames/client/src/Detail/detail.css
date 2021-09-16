@@ -1,4 +1,6 @@
 .cards_details {
+  max-width: 120rem;
+  margin: 0 auto;
   background-color: black;
   padding-bottom: 3rem;
 }

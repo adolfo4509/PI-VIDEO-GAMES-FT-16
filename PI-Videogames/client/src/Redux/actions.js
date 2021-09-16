@@ -19,14 +19,38 @@ export const GET_PLATFORMS = "GET_PLATFORMS";
 export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
 export const FILTER_CREATE = "FILTER_CREATE";
 
+// export const getVideogames = () => {
+//   return (dispatch) => {
+//     return axios.get(VIDEOGAMES_URL).then((videogames) => {
+//       dispatch({
+//         type: GET_VIDEOGAME,
+//         payload: videogames.data,
+//       });
+//     });
+//   };
+// };
+// return async (dispatch) => {
+//   try {
+//     var json = await axios.get(VIDEOGAMEID_URL + id);
+//     return dispatch({
+//       type: GET_VIDEOGAME_DETAIL,
+//       payload: json.data,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 export const getVideogames = () => {
-  return (dispatch) => {
-    return axios.get(VIDEOGAMES_URL).then((videogames) => {
-      dispatch({
+  return async (dispatch) => {
+    try {
+      var json = await axios.get(VIDEOGAMES_URL);
+      return dispatch({
         type: GET_VIDEOGAME,
-        payload: videogames.data,
+        payload: json.data,
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 export function selectGameGenres() {
