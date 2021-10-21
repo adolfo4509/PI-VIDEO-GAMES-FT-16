@@ -64,7 +64,7 @@ const CreateVideogame = () => {
   const handleSelectPlatforms = (e) => {
     setInput({
       ...input,
-      platforms: e.target.value,
+      platforms: [...input.platforms, e.target.value],
     });
   };
 
@@ -107,7 +107,7 @@ const CreateVideogame = () => {
             <div className="datos">
               <label>Released:</label>
               <input
-                type="date"
+                type="Date"
                 value={input.released}
                 name="released"
                 onChange={(e) => handleChange(e)}
@@ -138,7 +138,7 @@ const CreateVideogame = () => {
               <label>Genres:</label>
               <select onChange={(e) => handleSelect(e)}>
                 {genres.map((gen) => (
-                  <option value={gen.id}>{gen.name}</option>
+                  <option value={gen.name}>{gen.name}</option>
                 ))}
               </select>
               <h4>{input.genres}</h4>

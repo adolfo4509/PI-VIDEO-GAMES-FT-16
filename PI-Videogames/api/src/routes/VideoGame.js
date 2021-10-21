@@ -152,7 +152,7 @@ router.post("/videogame", async (req, res, next) => {
       createdInDb,
     });
     //   console.log("videogameCreate", videogameCreate);
-    // await videogameCreate.setGenres(genres);
+    await videogameCreate.setGenres(genres);
     let genresDb = await Videogame.findAll({
       include: {
         model: Genres,

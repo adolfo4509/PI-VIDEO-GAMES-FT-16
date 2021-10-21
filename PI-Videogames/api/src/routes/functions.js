@@ -62,12 +62,9 @@ const platfor = async () => {
     return plataformaFilter.indexOf(ele) == pos;
   });
   //AQUI SACO TODAS LAS PLATAFORMAS
-  let platf = filteredArray
-    .map((e) => {
-      return { name: e };
-    })
-    .sort();
-
+  let platf = filteredArray.map((e) => {
+    return { name: e };
+  });
   return platf;
 };
 module.exports = { apiInfo, getAllInfo, platfor };

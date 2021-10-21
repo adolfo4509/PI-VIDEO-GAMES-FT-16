@@ -35,6 +35,7 @@ export const Search = () => {
           handleSubmit(e);
         }}
       >
+        {" "}
         Search
       </button>
     </div>
