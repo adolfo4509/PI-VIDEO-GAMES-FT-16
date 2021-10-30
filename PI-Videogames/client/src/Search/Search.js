@@ -13,10 +13,11 @@ export const Search = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!input) {
-      return alert("Ingrese un videogame");
+      alert("Ingrese un videogame");
     } else {
-      return dispatch(searchVideogame(input));
+      dispatch(searchVideogame(input));
     }
+    setInput("I");
   };
   return (
     <div className="paginado">
@@ -31,11 +32,8 @@ export const Search = () => {
       <button
         className="button_search"
         type="submit"
-        onClick={(e) => {
-          handleSubmit(e);
-        }}
+        onClick={(e) => handleSubmit(e)}
       >
-        {" "}
         Search
       </button>
     </div>

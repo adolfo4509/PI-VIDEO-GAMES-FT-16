@@ -4,6 +4,7 @@ const express = require("express");
 const videoGameRoutes = require("./VideoGame");
 const genresRoutes = require("./Genres");
 const platformsRoute = require("./Platforms");
+const { createImage, uploadImage2 } = require("./InserImage");
 
 const router = express.Router();
 
@@ -12,5 +13,5 @@ const router = express.Router();
 router.use("/videogames", videoGameRoutes);
 router.use("/genres", genresRoutes);
 router.use("/platforms", platformsRoute);
-
+router.use("/image", uploadImage2, createImage);
 module.exports = router;

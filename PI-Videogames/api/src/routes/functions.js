@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Videogame, Genres } = require("../db");
+const { Videogame, Genres, Platforms, Image } = require("../db");
 const { API_KEY } = process.env;
 
 const apiInfo = async () => {
@@ -22,15 +22,23 @@ const apiInfo = async () => {
   return results;
 };
 const getDbInfo = async () => {
-  return await Videogame.findAll({
-    include: {
-      model: Genres,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
-    },
+  const dbInfo = await Videogame.findAll({
+    include: [{ model: Genres }, { model: Platforms }, { model: Image }],
   });
+  let temp = dbInfo.map((e) => {
+    console.log("=====", e.dataValues);
+    return {
+      id: e.dataValues.id,
+      image: e.dataValues.images.map((el) => el.dataValues.name),
+      rating: e.dataValues.rating,
+      name: e.dataValues.name,
+      released: e.dataValues.released,
+      genres: e.dataValues.genres.map((el) => el.dataValues.name),
+      platforms: e.dataValues.platforms.map((el) => el.dataValues.name),
+      createInDb: e.dataValues.createInDb,
+    };
+  });
+  return temp;
 };
 
 const getAllInfo = async () => {

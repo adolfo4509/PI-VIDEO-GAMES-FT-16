@@ -12,7 +12,7 @@ const genresInfo = async () => {
   });
   //let dbGenres = [];
   const consultDb = await Genres.findAll();
-  // console.log(consultDb);
+
   if (consultDb.length === 0) {
     await Genres.bulkCreate(infoGenres);
   }

@@ -1,17 +1,12 @@
 const { default: axios } = require("axios");
 const { Router } = require("express");
-const { Videogame, Genres } = require("../db.js");
+const { Videogame, Genres, Platforms } = require("../db.js");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { getAllInfo } = require("./functions.js");
 const { v4: uuidv4 } = require("uuid");
 const router = Router();
 
-/*
- GET /videogames:
-Obtener un listado de los videojuegos
-Debe devolver solo los datos necesarios para la ruta principal
-*/
 router.get("/videogames", async (req, res, next) => {
   try {
     const gameAll = await getAllInfo();
@@ -134,36 +129,26 @@ router.post("/videogame", async (req, res, next) => {
     released,
     rating,
     createdInDb,
-    genres,
-    platforms,
-    image,
+    genreId,
+    platformId,
   } = req.body;
 
   try {
     const videogameCreate = await Videogame.create({
       id: uuidv4(),
       name,
-      image,
       description,
       released,
       rating,
-      genres,
-      platforms,
       createdInDb,
     });
-    //   console.log("videogameCreate", videogameCreate);
-    await videogameCreate.setGenres(genres);
-    let genresDb = await Videogame.findAll({
-      include: {
-        model: Genres,
-      },
-    });
+    await videogameCreate.setGenres(genreId);
+    await videogameCreate.setPlatforms(platformId);
 
-    videogameCreate.addGenres(genresDb);
-
-    res.status(200).send(videogameCreate);
+    res.status(200).send("Video creado");
   } catch (error) {
     next(error);
   }
 });
+
 module.exports = router;

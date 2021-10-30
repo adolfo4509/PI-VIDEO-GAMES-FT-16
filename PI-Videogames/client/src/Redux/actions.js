@@ -137,5 +137,6 @@ export const getVideogameDetail = (id) => {
   };
 };
 export function filterCreate(payload) {
+  console.log("Desde la accion filterCreate", payload);
   return { type: FILTER_CREATE, payload };
 }

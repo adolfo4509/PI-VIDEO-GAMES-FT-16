@@ -121,7 +121,6 @@ function rootReducer(state = inicialState, action) {
         action.payload === "Created"
           ? allvideogame.filter((el) => el.createInDb)
           : allvideogame.filter((el) => !el.createInDb);
-      //console.log("=====> LOS FILTROS DESDE EL REDUCER", createdFilter);
 
       return {
         ...state,

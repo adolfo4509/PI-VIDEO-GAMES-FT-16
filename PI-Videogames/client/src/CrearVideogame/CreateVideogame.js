@@ -21,25 +21,20 @@ const CreateVideogame = () => {
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
+
   useEffect(() => {
     dispatch(getGenres());
     dispatch(getPlatforms());
   }, [dispatch]);
-  const Options = platforms.map((e, i) => {
-    return (
-      <option key={i} value={e.platforms}>
-        {e.name}
-      </option>
-    );
-  });
+
   const [input, setInput] = useState({
     name: "",
     description: "",
     released: "",
     image: "",
     rating: "",
-    genres: [],
-    platforms: [],
+    genreId: [],
+    platformId: [],
   });
   const handleChange = (e) => {
     setInput({
@@ -55,22 +50,24 @@ const CreateVideogame = () => {
   };
 
   const handleSelect = (e) => {
+    let genInt = parseInt(e.target.value);
     setInput({
       ...input,
-      genres: [...input.genres, e.target.value],
+      genreId: [...input.genreId, genInt],
     });
   };
 
   const handleSelectPlatforms = (e) => {
+    let platfInt = parseInt(e.target.value);
     setInput({
       ...input,
-      platforms: [...input.platforms, e.target.value],
+      platformId: [...input.platformId, platfInt],
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await postVideogame(input);
+    postVideogame(input);
     alert("Videogame creado con exito");
     setInput({
       name: "",
@@ -78,8 +75,8 @@ const CreateVideogame = () => {
       released: "",
       image: "",
       rating: "",
-      genres: [],
-      platforms: [],
+      genreId: [],
+      platformId: [],
     });
   };
 
@@ -117,9 +114,10 @@ const CreateVideogame = () => {
             <div className="datos">
               <label>Rating:</label>
               <input
-                type="text"
+                type="number"
                 value={input.rating}
                 name="rating"
+                min="0"
                 onChange={(e) => handleChange(e)}
               />
               {errors.rating && <p>{errors.rating}</p>}
@@ -138,17 +136,19 @@ const CreateVideogame = () => {
               <label>Genres:</label>
               <select onChange={(e) => handleSelect(e)}>
                 {genres.map((gen) => (
-                  <option value={gen.name}>{gen.name}</option>
+                  <option value={gen.id}>{gen.name}</option>
                 ))}
               </select>
-              <h4>{input.genres}</h4>
+              <h4>{input.genreId}</h4>
             </div>
             <div className="datos">
               <label>Platforms:</label>
               <select onChange={(e) => handleSelectPlatforms(e)}>
-                {Options}
+                {platforms.map((plat) => (
+                  <option value={plat.id}>{plat.name}</option>
+                ))}
               </select>
-              <h4>{input.platforms}</h4>
+              <h4>{input.platformId}</h4>
             </div>
             <div>
               <label>image:</label>

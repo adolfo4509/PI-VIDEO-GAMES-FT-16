@@ -65,6 +65,7 @@ function Home() {
   }
   const handleOrderCreated = (e) => {
     e.preventDefault();
+    console.log("entro", e.target.value);
     dispatch(filterCreate(e.target.value));
     setOrden(e.target.value);
   };
