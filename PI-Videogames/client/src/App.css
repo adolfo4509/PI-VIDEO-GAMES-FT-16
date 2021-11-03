@@ -4,7 +4,6 @@
 }
 @media (min-width: 768px) {
   .container {
-    background-color: black;
     max-width: 120rem;
     margin: 0 auto;
   }
@@ -30,7 +29,6 @@ h4 {
 /*------------BUSCADOR-----------------------*/
 .input_Search {
   text-align: center;
-  background-color: #14eb98;
   padding: 0.8rem;
   border-radius: 2rem;
 }
@@ -40,15 +38,15 @@ h4 {
   font-size: 0.8rem;
   border-radius: 0.5rem;
   border: hidden;
-  color: #f1eaef;
+  color: black;
   margin-left: 0.5rem;
 }
 @media (min-width: 768px) {
   .button_search {
-    font-size: 1.6rem;
+    font-size: 1rem;
     border-radius: 0.5rem;
     border: hidden;
-    color: #f1eaef;
+    color: black;
     margin-left: 0.5rem;
   }
 }
@@ -64,41 +62,42 @@ h4 {
 }
 @media (min-width: 768px) {
   .search_input {
-    font-size: 1.6rem;
+    font-size: 1rem;
     border: none;
     border-radius: 0.5rem;
   }
 }
 /*--------------------------------*/
 .cargar {
-  margin-top: 1rem;
-  background-color: #282c34;
-  color: #eff2f9;
-  border-radius: 0.3rem;
-  border: hidden;
+  color: #000;
   cursor: pointer;
   padding: 0.2rem;
   font-size: 0.8rem;
 }
-.button_search:hover {
-  background-color: rgba(0, 255, 255, 0.349);
-  border-radius: 0.3rem;
-  border: hidden;
-  cursor: pointer;
+.cargar:hover {
+  color: red;
 }
+
 .cards {
   text-decoration: none;
-  background-color: rgba(218, 224, 199, 0.849);
+  background-color: #eff2f9;
   justify-content: space-between;
   border-radius: 0.2rem;
   padding-bottom: 0.8rem;
+  transition: 0.5s;
+}
+.cards:hover {
+  transform: scale(0.9, 0.9);
+
+  box-shadow: 5px 5px 30px 15px rgba(0, 0, 0, 0.25),
+    -5px -5px 30px 15px rgba(0, 0, 0, 0.22);
 }
 .link_cards {
   text-decoration: none;
 }
 @media (min-width: 768px) {
   .cards {
-    background-color: rgba(218, 224, 199, 0.849);
+    background-color: #eff2f9;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,6 +110,13 @@ h4 {
   border-radius: 0.5rem;
   width: 300px;
   height: 250px;
+  opacity: 0.9;
+  transition: 0.5s;
+}
+.cards_h4 {
+  font-size: 0.9rem;
+  margin: 0.5rem;
+  text-align: justify;
 }
 
 .App {

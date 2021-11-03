@@ -65,23 +65,23 @@ function Home() {
   }
   const handleOrderCreated = (e) => {
     e.preventDefault();
-    console.log("entro", e.target.value);
+
     dispatch(filterCreate(e.target.value));
     setOrden(e.target.value);
   };
   return (
     <div className="container">
       <Nav />
-      <button
-        className="cargar"
-        onClick={(e) => {
-          handleClick(e);
-        }}
-      >
-        Regresar
-      </button>
       <div className="select">
-        <h3>Filtrar por Generos</h3>
+        <button
+          className="cargar"
+          onClick={(e) => {
+            handleClick(e);
+          }}
+        >
+          Regresar
+        </button>
+        <p>Filtrar por Generos</p>
         <select className="select-css" onChange={(e) => handleOnChange(e)}>
           <option>Selecciona una opción</option>
           {allGenres.map(({ ID, name }) => {
@@ -93,7 +93,7 @@ function Home() {
           })}
         </select>
         <div className="filter_orden">
-          <h3>Filtrar en Orden </h3>
+          <p>Filtrar en Orden </p>
           <select onChange={(e) => handleSortAsc(e)} className="filter_select">
             <option className="ordenar" value="Asc">
               Ascendente
@@ -148,6 +148,11 @@ function Home() {
             );
           })}
       </div>
+      <Paginado
+        videogamePerPage={videogamePerPage}
+        allvideogame={allVideogame}
+        paginado={paginado}
+      />
     </div>
   );
 }

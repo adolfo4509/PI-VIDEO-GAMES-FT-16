@@ -1,11 +1,11 @@
-body {
+/* body {
   background-image: url(../img/videogame.png);
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 
 @media (min-width: 768px) {
-  body {
+  .body {
     background-image: url(../img/videogame.png);
     background-repeat: no-repeat;
     background-size: cover;
@@ -48,11 +48,10 @@ h3 {
   font-size: 2rem;
   border-radius: 0.5rem;
   border: hidden;
-  color: #0d5741;
   margin-left: 1rem;
 }
 .button:hover {
-  background-color: aqua;
+  color: red;
   border-radius: 0.3rem;
   border: hidden;
   cursor: pointer;

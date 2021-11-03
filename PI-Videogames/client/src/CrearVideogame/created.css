@@ -8,7 +8,7 @@
   display: block;
   padding-bottom: 2rem;
 }
-body {
+.body {
   background-color: black;
 }
 .datos {
@@ -22,11 +22,12 @@ label {
   font-weight: bold;
 }
 button {
-  background-color: rgb(127, 150, 255);
   cursor: pointer;
-  border: 2px solid red;
-  border-radius: 0.3rem;
 }
 button:hover {
-  background-color: rgb(43, 226, 226);
+  color: red;
+}
+.imagen {
+  display: flex;
+  justify-content: center;
 }

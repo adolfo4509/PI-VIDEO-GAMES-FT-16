@@ -4,11 +4,12 @@ import { searchVideogame } from "../Redux/actions.js";
 
 export const Search = () => {
   const dispatch = useDispatch();
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("I");
 
   const handleChange = (e) => {
     e.preventDefault();
     setInput(e.target.value);
+    setInput("I");
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +18,6 @@ export const Search = () => {
     } else {
       dispatch(searchVideogame(input));
     }
-    setInput("I");
   };
   return (
     <div className="paginado">
@@ -32,7 +32,7 @@ export const Search = () => {
       <button
         className="button_search"
         type="submit"
-        onClick={(e) => handleSubmit(e)}
+        onChange={(e) => handleSubmit(e)}
       >
         Search
       </button>

@@ -19,27 +19,6 @@ export const GET_PLATFORMS = "GET_PLATFORMS";
 export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
 export const FILTER_CREATE = "FILTER_CREATE";
 
-// export const getVideogames = () => {
-//   return (dispatch) => {
-//     return axios.get(VIDEOGAMES_URL).then((videogames) => {
-//       dispatch({
-//         type: GET_VIDEOGAME,
-//         payload: videogames.data,
-//       });
-//     });
-//   };
-// };
-// return async (dispatch) => {
-//   try {
-//     var json = await axios.get(VIDEOGAMEID_URL + id);
-//     return dispatch({
-//       type: GET_VIDEOGAME_DETAIL,
-//       payload: json.data,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 export const getVideogames = () => {
   return async (dispatch) => {
     try {
@@ -137,6 +116,15 @@ export const getVideogameDetail = (id) => {
   };
 };
 export function filterCreate(payload) {
-  console.log("Desde la accion filterCreate", payload);
   return { type: FILTER_CREATE, payload };
 }
+export const postAllImagesVideogame = (id, payload) => {
+  console.log("Desde la accion", id, payload);
+  return async () => {
+    try {
+      await axios.post(`/image?image_Videogame=${id}`, payload);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};

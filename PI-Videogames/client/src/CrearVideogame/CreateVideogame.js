@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getPlatforms } from "../Redux/actions";
 import Nav from "../Nav/Nav";
 import "./created.css";
+import AddImage from "./AddImage";
+import { useHistory } from "react-router";
 
 const validate = (input) => {
   let errors = {};
@@ -21,7 +23,7 @@ const CreateVideogame = () => {
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
-
+  const history = useHistory();
   useEffect(() => {
     dispatch(getGenres());
     dispatch(getPlatforms());
@@ -32,7 +34,7 @@ const CreateVideogame = () => {
     description: "",
     released: "",
     image: "",
-    rating: "",
+    rating: null,
     genreId: [],
     platformId: [],
   });
@@ -67,17 +69,22 @@ const CreateVideogame = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postVideogame(input);
-    alert("Videogame creado con exito");
-    setInput({
-      name: "",
-      description: "",
-      released: "",
-      image: "",
-      rating: "",
-      genreId: [],
-      platformId: [],
-    });
+    if (input.name === "") {
+      alert("Ingresa un Videogame");
+    } else {
+      postVideogame(input);
+      alert("Videogame creado con exito");
+      setInput({
+        name: "",
+        description: "",
+        released: "",
+        image: "",
+        rating: null,
+        genreId: [],
+        platformId: [],
+      });
+      history.push("/home");
+    }
   };
 
   return (
@@ -114,6 +121,7 @@ const CreateVideogame = () => {
             <div className="datos">
               <label>Rating:</label>
               <input
+                step="0.1"
                 type="number"
                 value={input.rating}
                 name="rating"
@@ -125,7 +133,7 @@ const CreateVideogame = () => {
             <div className="datos">
               <label>Description:</label>
               <input
-                type="text"
+                type="textarea"
                 value={input.description}
                 name="description"
                 onChange={(e) => handleChange(e)}
@@ -150,17 +158,11 @@ const CreateVideogame = () => {
               </select>
               <h4>{input.platformId}</h4>
             </div>
-            <div>
-              <label>image:</label>
-              <input
-                type="url"
-                value={input.image}
-                name="image"
-                onChange={(e) => handleChange(e)}
-              />
+            <div className="imagen">
+              <label>Image: </label>
+              <AddImage />
             </div>
           </div>
-          <br />
           <button type="submit">Agregar Videogame</button>
         </form>
       </div>
@@ -169,12 +171,3 @@ const CreateVideogame = () => {
 };
 
 export default CreateVideogame;
-/**
-  'PlayStation 5',   'PlayStation 4',   'PlayStation 3',
-  'Xbox 360',        'PC',              'Xbox One',
-  'Xbox Series S/X', 'Nintendo Switch', 'macOS',
-  'Linux',           'Android',         'iOS',
-  'Xbox',            'PS Vita',         'Web',
-  'Wii U',           'Nintendo 3DS',    'PlayStation 2',
-
- */

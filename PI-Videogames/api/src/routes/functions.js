@@ -26,7 +26,6 @@ const getDbInfo = async () => {
     include: [{ model: Genres }, { model: Platforms }, { model: Image }],
   });
   let temp = dbInfo.map((e) => {
-    console.log("=====", e.dataValues);
     return {
       id: e.dataValues.id,
       image: e.dataValues.images.map((el) => el.dataValues.name),

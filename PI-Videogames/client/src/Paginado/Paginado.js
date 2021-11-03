@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import "./paginados.css";
 
 export default function Paginado({ videogamePerPage, paginado }) {
   const allVideogame = useSelector((state) => state.videogameLoad);
@@ -11,11 +12,10 @@ export default function Paginado({ videogamePerPage, paginado }) {
 
   return (
     <div>
-      <p>Páginas</p>
-      <nav className="nav_paginado">
+      <nav className="nav_paginado1">
         {pageNumbers &&
           pageNumbers.map((number, id) => (
-            <p className="App-link" onClick={() => paginado(number)} key={id}>
+            <p className="App-link1" onClick={() => paginado(number)} key={id}>
               {number}
             </p>
           ))}

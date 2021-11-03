@@ -11,25 +11,42 @@ const Detail = (props) => {
     dispatch(getVideogameDetail(props.match.params.id));
   }, [dispatch, props.match.params.id]);
   return (
-    <div className="cards_details">
+    <div>
       <Nav />
-      {myVideogame.length > 0 ? (
-        <div>
-          <h1>Name: {myVideogame[0].name}</h1>
-          <img
-            className="image"
-            src={myVideogame[0].background_image}
-            alt=" img not found"
-          />
-          <p>genres: {myVideogame[0].genres}</p>
-          <p>platform: {myVideogame[0].platforms}</p>
-          <p>rating: {myVideogame[0].rating}</p>
-          <p>released: {myVideogame[0].released}</p>
-          <p>description: {myVideogame[0].description}</p>
-        </div>
-      ) : (
-        <p>landing...</p>
-      )}
+      <div className="cards_details">
+        {myVideogame.length > 0 ? (
+          <div className="cards_details_">
+            <h2>
+              {" "}
+              <span>Name:</span> {myVideogame[0].name}
+            </h2>
+            <img
+              className="image_Detail"
+              src={myVideogame[0].background_image}
+              alt=" img not found"
+            />
+            <p className="description">
+              <span>genres:</span> {myVideogame[0].genres}
+            </p>
+            <p className="description">
+              <span>platform: </span>
+              {myVideogame[0].platforms}
+            </p>
+            <p className="description">
+              <span>rating:</span> {myVideogame[0].rating}
+            </p>
+            <p className="description">
+              <span>released: </span>
+              {myVideogame[0].released}
+            </p>
+            <p className="description1">
+              <span>description:</span> {myVideogame[0].description}
+            </p>
+          </div>
+        ) : (
+          <p>landing...</p>
+        )}
+      </div>
     </div>
   );
 };
