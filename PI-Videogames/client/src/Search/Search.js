@@ -9,14 +9,12 @@ export const Search = () => {
   const handleChange = (e) => {
     e.preventDefault();
     setInput(e.target.value);
+    handleSubmit(e.target.value);
   };
   const handleSubmit = (e) => {
     // e.preventDefault();
-    if (!input) {
-      alert("Ingrese un videogame");
-    } else {
-      dispatch(searchVideogame(input));
-    }
+    dispatch(searchVideogame(e));
+    setInput("");
   };
   return (
     <div className="paginado">
@@ -28,13 +26,6 @@ export const Search = () => {
         name="input"
         onChange={(e) => handleChange(e)}
       />
-      <button
-        className="button_search"
-        type="text"
-        onClick={(e) => handleSubmit(e)}
-      >
-        Search
-      </button>
     </div>
   );
 };
