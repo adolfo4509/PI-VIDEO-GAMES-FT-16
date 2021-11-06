@@ -5,3 +5,4 @@ export const VIDEOGAMENAME_URL = BASE_URL + "videogames/videogame/";
 export const VIDEOGAMEID_URL = BASE_URL + "videogames/videogames/";
 export const VIDEOGAME_CREATE_URL = BASE_URL + "videogames/videogame";
 export const GENRES_URL = BASE_URL + "genres/genres";
+export const IMAGES_URL = BASE_URL + "image";

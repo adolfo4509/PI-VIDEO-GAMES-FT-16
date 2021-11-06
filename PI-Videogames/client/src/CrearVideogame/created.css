@@ -1,12 +1,18 @@
 .form_videogame {
   background-color: rgb(240, 240, 228);
-  margin: 2rem auto 0 auto;
+  margin: 0.1rem auto 0 auto;
   width: 70%;
   padding: 3rem;
 }
 .data_input {
   display: block;
   padding-bottom: 2rem;
+}
+.add_imagen {
+  padding-top: 2rem;
+}
+.button2 {
+  margin-top: 2rem;
 }
 .body {
   background-color: black;

@@ -6,6 +6,7 @@ import {
   BASE_PLATAFORMS,
   VIDEOGAMEID_URL,
   VIDEOGAME_CREATE_URL,
+  IMAGES_URL,
 } from "../Constantes/Constans";
 export const GET_VIDEOGAME = "GET_VIDEOGAME";
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
@@ -119,10 +120,10 @@ export function filterCreate(payload) {
   return { type: FILTER_CREATE, payload };
 }
 export const postAllImagesVideogame = (id, payload) => {
-  console.log("Desde la accion", id, payload);
+  console.log("desdes la accion", IMAGES_URL);
   return async () => {
     try {
-      await axios.post(`/image?image_Videogame=${id}`, payload);
+      await axios.post(`${IMAGES_URL}?image_Videogame=${id}`, payload);
     } catch (err) {
       console.error(err);
     }

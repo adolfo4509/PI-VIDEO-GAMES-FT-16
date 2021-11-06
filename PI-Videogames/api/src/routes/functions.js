@@ -25,6 +25,7 @@ const getDbInfo = async () => {
   const dbInfo = await Videogame.findAll({
     include: [{ model: Genres }, { model: Platforms }, { model: Image }],
   });
+
   let temp = dbInfo.map((e) => {
     return {
       id: e.dataValues.id,
@@ -56,8 +57,8 @@ const getAllInfo = async () => {
   });
 
   const dbInfo = await getDbInfo();
-  const totalApi = temp.concat(dbInfo).flat();
 
+  const totalApi = temp.concat(dbInfo).flat();
   return totalApi;
 };
 const platfor = async () => {

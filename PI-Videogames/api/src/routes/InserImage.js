@@ -16,6 +16,13 @@ const multerConfig = multer.diskStorage({
 
 const upload = multer({
   storage: multerConfig,
+  limits: { fieldSize: 1000000 },
+  fileFilter(req, file, callback) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return callback(new Error("Only images are allowed"));
+    }
+    callback(null, true);
+  },
 });
 
 exports.uploadImage2 = upload.single("img");

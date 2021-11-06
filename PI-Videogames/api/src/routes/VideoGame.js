@@ -28,6 +28,7 @@ router.get("/videogame/:name", async (req, res, next) => {
       ` https://api.rawg.io/api/games?key=${API_KEY}&search=${name}`
     );
     const videogameId = await infoApiUrl.data.results.map((e) => e.id);
+
     let nameVideogame = [];
     for (let i = 0; i < videogameId.length; i++) {
       let temp = await axios.get(
@@ -92,17 +93,18 @@ router.get("/videogames/:id", async (req, res, next) => {
       });
     };
     const getAllInfo = async () => {
-      //const apiInfo = infoId;
+      const apiInfo = infoId;
+
       const dbInfo = await videogameDb();
       const totalApi = infoId.concat(dbInfo);
 
       return totalApi;
     };
     let videogameAll = await getAllInfo();
-    // console.log("videoGameAll========>", videogameAll, "TERMINA");
+
     if (id) {
       let videogameId = videogameAll.filter((e) => e.id == id.toString());
-      //videogameId.length;
+      videogameId.length;
       res.status(200).json(videogameId);
     }
   } catch (error) {

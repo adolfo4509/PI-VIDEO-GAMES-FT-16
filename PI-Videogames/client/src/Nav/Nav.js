@@ -6,7 +6,7 @@ import { Search } from "../Search/Search";
 const Nav = () => {
   return (
     <header className="App-header">
-      <div>
+      <div className="logo">
         <img
           id="App-logo"
           src={Logo}
@@ -15,8 +15,8 @@ const Nav = () => {
           className="d-inline-block align-top"
           alt="Logo-Henry"
         />
+        <h1>Henry Videogames</h1>
       </div>
-      <h1>Henry Videogames</h1>
       <Search />
       <div className="navBar">
         <Link className="App-link" exact to="/home">

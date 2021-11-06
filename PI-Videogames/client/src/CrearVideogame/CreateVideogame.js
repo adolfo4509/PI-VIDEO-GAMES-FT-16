@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getPlatforms } from "../Redux/actions";
 import Nav from "../Nav/Nav";
 import "./created.css";
-import AddImage from "./AddImage";
 import { useHistory } from "react-router";
 
 const validate = (input) => {
@@ -157,10 +156,6 @@ const CreateVideogame = () => {
                 ))}
               </select>
               <h4>{input.platformId}</h4>
-            </div>
-            <div className="imagen">
-              <label>Image: </label>
-              <AddImage />
             </div>
           </div>
           <button type="submit">Agregar Videogame</button>

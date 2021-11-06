@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
+import Nav from "../Nav/Nav";
 import { postAllImagesVideogame } from "../Redux/actions";
 
 const AddImage = () => {
@@ -8,6 +9,7 @@ const AddImage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { videogameId } = useParams();
+
   useEffect(() => {
     dispatch(postAllImagesVideogame(videogameId));
   }, [dispatch, videogameId]);
@@ -16,7 +18,8 @@ const AddImage = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("img", file);
+    formData.set("img", file);
+    //console.log("este es formada", formData);
     var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
     if (!allowedExtensions.exec(file.name)) {
       alert(
@@ -27,15 +30,18 @@ const AddImage = () => {
     }
     dispatch(postAllImagesVideogame(videogameId, formData));
     alert("Successfully insert image");
+
     history.push("/home");
   };
   const InputChange = (e) => {
     setfile(e.target.files[0]);
   };
   return (
-    <div>
+    <div className="form_videogame">
+      <Nav />
       <form onSubmit={onFormSubmit}>
-        <div>
+        <div className="add_imagen">
+          <label> INSERTAR IMAGEN:</label>
           <input type="file" name="img" onChange={InputChange}></input>
         </div>
         <button className="button2" type="submit" disabled={!file}>

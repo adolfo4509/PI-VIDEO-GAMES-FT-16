@@ -16,7 +16,7 @@ import Nav from "../Nav/Nav";
 function Home() {
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
-  const [, setOrden] = useState();
+  const [orden, setOrden] = useState();
 
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +27,7 @@ function Home() {
     indexOfFirtsvideogame,
     indexOfLastvideogame
   );
-
+  var images;
   const paginado = (pageNum) => {
     setCurrentPage(pageNum);
   };
@@ -72,27 +72,29 @@ function Home() {
   return (
     <div className="container">
       <Nav />
+      <button
+        className="cargar"
+        onClick={(e) => {
+          handleClick(e);
+        }}
+      >
+        Regresar
+      </button>
       <div className="select">
-        <button
-          className="cargar"
-          onClick={(e) => {
-            handleClick(e);
-          }}
-        >
-          Regresar
-        </button>
-        <p>Filtrar por Generos</p>
-        <select className="select-css" onChange={(e) => handleOnChange(e)}>
-          <option>Selecciona una opción</option>
-          {allGenres.map(({ ID, name }) => {
-            return (
-              <option key={ID} value={name}>
-                {name}
-              </option>
-            );
-          })}
-        </select>
-        <div className="filter_orden">
+        <div>
+          <p>Filtrar por Generos</p>
+          <select className="select-css" onChange={(e) => handleOnChange(e)}>
+            <option>Selecciona una opción</option>
+            {allGenres.map(({ ID, name }) => {
+              return (
+                <option key={ID} value={name}>
+                  {name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <div>
           <p>Filtrar en Orden </p>
           <select onChange={(e) => handleSortAsc(e)} className="filter_select">
             <option className="ordenar" value="Asc">
@@ -102,6 +104,9 @@ function Home() {
               Descendente
             </option>
           </select>
+        </div>
+        <div>
+          <p>Rating</p>
           <select onChange={(e) => handleSort(e)} className="filter_select">
             <option className="ordenar" value="Mayor-rating">
               Mayor Rating
@@ -110,10 +115,11 @@ function Home() {
               Menor Rating
             </option>
           </select>
-          <select
-            onChange={(e) => handleOrderCreated(e)}
+        </div>
+        <div>
+          <p>Videojuego Creados</p>
+          <select onChange={(e) => handleOrderCreated(e)}>
             className="filter_select"
-          >
             <option className="ordenar" value="All">
               Videogame existente
             </option>
@@ -133,6 +139,11 @@ function Home() {
       <div className="cards_breads">
         {currentBreads &&
           currentBreads.map((d) => {
+            if (typeof d.id === "string" && d.id.length > 10) {
+              images = d.image[0];
+            } else {
+              images = d.image;
+            }
             return (
               <Card
                 id={d.id}
@@ -142,7 +153,7 @@ function Home() {
                 released={d.released}
                 rating={d.rating}
                 description={d.description}
-                image={d.image}
+                image={images}
                 key={d.id}
               ></Card>
             );

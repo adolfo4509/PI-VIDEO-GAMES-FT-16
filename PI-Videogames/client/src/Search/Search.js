@@ -4,15 +4,14 @@ import { searchVideogame } from "../Redux/actions.js";
 
 export const Search = () => {
   const dispatch = useDispatch();
-  const [input, setInput] = useState("I");
+  const [input, setInput] = useState();
 
   const handleChange = (e) => {
     e.preventDefault();
     setInput(e.target.value);
-    setInput("I");
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!input) {
       alert("Ingrese un videogame");
     } else {
@@ -31,8 +30,8 @@ export const Search = () => {
       />
       <button
         className="button_search"
-        type="submit"
-        onChange={(e) => handleSubmit(e)}
+        type="text"
+        onClick={(e) => handleSubmit(e)}
       >
         Search
       </button>
