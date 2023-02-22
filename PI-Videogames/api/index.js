@@ -18,7 +18,6 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 require("dotenv").config();
-const { API_KEY } = process.env;
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 

@@ -8,12 +8,9 @@ const { v4: uuidv4 } = require("uuid");
 const router = Router();
 
 router.get("/videogames", async (req, res, next) => {
-  try {
-    const gameAll = await getAllInfo();
-    res.status(200).json(gameAll);
-  } catch (error) {
-    next(error);
-  }
+  const gameAll = await getAllInfo();
+
+  res.status(200).send(gameAll);
 });
 
 /*
@@ -48,7 +45,7 @@ router.get("/videogame/:name", async (req, res, next) => {
       });
     }
 
-    res.status(200).json(nameVideogame);
+    res.status(200).send(nameVideogame);
   } catch (error) {
     next(error);
   }
@@ -105,7 +102,7 @@ router.get("/videogames/:id", async (req, res, next) => {
     if (id) {
       let videogameId = videogameAll.filter((e) => e.id == id.toString());
       videogameId.length;
-      res.status(200).json(videogameId);
+      res.status(200).send(videogameId);
     }
   } catch (error) {
     next(error);

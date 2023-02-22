@@ -5,7 +5,7 @@ const { API_KEY } = process.env;
 const apiInfo = async () => {
   const getVideogamesPromises = [];
 
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 2; index++) {
     getVideogamesPromises.push(
       axios.get(
         ` https://api.rawg.io/api/games?key=${API_KEY}&page=${index + 1}`
@@ -17,6 +17,7 @@ const apiInfo = async () => {
 
   for (let index = 0; index < responses.length; index++) {
     const element = responses[index];
+
     results = [...results, ...element.data.results];
   }
   return results;
@@ -41,7 +42,7 @@ const getDbInfo = async () => {
   return temp;
 };
 
-const getAllInfo = async () => {
+async function getAllInfo() {
   const infoTotal = await apiInfo();
 
   let temp = infoTotal.map((e) => {
@@ -60,7 +61,7 @@ const getAllInfo = async () => {
 
   const totalApi = temp.concat(dbInfo).flat();
   return totalApi;
-};
+}
 const platfor = async () => {
   const plataformas = await apiInfo();
   const plat = plataformas.map((e) => e.platforms).flat();

@@ -7,7 +7,7 @@ const router = Router();
 router.get("/plataforms", async (req, res, next) => {
   try {
     const genresAll = await platfor();
-    res.status(200).json(genresAll);
+    return res.status(200).send(genresAll);
   } catch (error) {
     next(error);
   }
