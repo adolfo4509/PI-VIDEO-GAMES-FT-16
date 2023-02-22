@@ -3,6 +3,7 @@
   min-width: 90%;
   margin: 0 auto;
 }
+
 @media (min-width: 768px) {
   .cards_breads {
     display: grid;
@@ -12,39 +13,49 @@
     min-width: 90%;
   }
 }
+
 .select {
   align-items: center;
 }
+
 .filter_orden {
   display: inline-grid;
   padding-bottom: 1rem;
 }
+
 .filter_select {
   margin-right: 0.5rem;
   justify-content: center;
   margin-bottom: 1rem;
 }
+
 @media (min-width: 458px) {
   .select {
     display: flex;
     justify-content: space-around;
     /* padding: 0 2rem; */
     align-items: center;
+    border-radius: 3px;
+    outline: none;
   }
+
   .filter_select {
     margin-right: 1rem;
   }
+
   .filter_orden {
     display: table-row;
     padding-bottom: 1rem;
   }
 }
+
 .ordenar {
   text-align: center;
   padding: 2rem;
   font-size: 1rem;
   background-color: cyan;
 }
+
 /* .search {
   background-color: #282c34;
 } */

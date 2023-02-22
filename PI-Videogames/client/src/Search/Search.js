@@ -5,14 +5,12 @@ import { searchVideogame } from "../Redux/actions.js";
 export const Search = () => {
   const dispatch = useDispatch();
   const [input, setInput] = useState();
-
   const handleChange = (e) => {
     e.preventDefault();
     setInput(e.target.value);
     handleSubmit(e.target.value);
   };
   const handleSubmit = (e) => {
-    // e.preventDefault();
     dispatch(searchVideogame(e));
     setInput("");
   };
@@ -23,7 +21,7 @@ export const Search = () => {
         type="text"
         autoComplete="off"
         placeholder="Insert Name"
-        name="input"
+        name={input}
         onChange={(e) => handleChange(e)}
       />
     </div>

@@ -22,7 +22,7 @@ const Card = ({ name, image, genres, platforms, rating, id, released }) => {
   return (
     <div className="cards">
       {renderImage()}
-      <Link to={`/home/${id}`} className="link_cards">
+      <Link to={`/detail/${id}`} className="link_cards">
         <h4 className="cards_h4">Videogame: {name} </h4>
         <h4 className="cards_h4">Generos: {genres} </h4>
         <h4 className="cards_h4">Plataformas: {platforms} </h4>

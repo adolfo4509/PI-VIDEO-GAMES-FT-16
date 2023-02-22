@@ -2,23 +2,47 @@
   max-width: 120rem;
   margin: 0 auto;
 }
+
+.app {
+  background-color: cyan;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 8px;
+}
+
 @media (min-width: 768px) {
   .container {
     max-width: 120rem;
-    margin: 0 auto;
+    margin: 77px auto;
+  }
+
+  .container::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .container::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 8px;
   }
 }
+
 h1 {
   font-size: 1rem;
 }
+
 h3 {
   font-size: 1rem;
 }
+
 h4 {
   font-size: 1rem;
   color: rgb(207, 98, 202);
 }
+
 @media (min-width: 458px) {
+
   h1,
   h2,
   h3,
@@ -26,6 +50,7 @@ h4 {
     font-size: 1.3rem;
   }
 }
+
 /*------------BUSCADOR-----------------------*/
 .input_Search {
   text-align: center;
@@ -41,6 +66,7 @@ h4 {
   color: black;
   margin-left: 0.5rem;
 }
+
 @media (min-width: 768px) {
   .button_search {
     font-size: 1rem;
@@ -50,16 +76,19 @@ h4 {
     margin-left: 0.5rem;
   }
 }
+
 .search_input {
   font-size: 0.9rem;
   text-align: center;
   border: none;
   border-radius: 0.5rem;
 }
+
 .search_input:focus {
   outline: none;
   box-shadow: none;
 }
+
 @media (min-width: 768px) {
   .search_input {
     font-size: 1rem;
@@ -67,6 +96,7 @@ h4 {
     border-radius: 0.5rem;
   }
 }
+
 /*--------------------------------*/
 .cargar {
   margin-top: 0.5rem;
@@ -75,6 +105,7 @@ h4 {
   /* padding: 0.2rem;
   font-size: 0.8rem; */
 }
+
 .cargar:hover {
   color: red;
 }
@@ -87,14 +118,17 @@ h4 {
   padding-bottom: 0.8rem;
   transition: 0.5s;
 }
+
 .cards:hover {
   transform: scale(0.9, 0.9);
   box-shadow: 5px 5px 30px 15px rgba(0, 0, 0, 0.25),
     -5px -5px 30px 15px rgba(0, 0, 0, 0.22);
 }
+
 .link_cards {
   text-decoration: none;
 }
+
 @media (min-width: 768px) {
   .cards {
     background-color: #eff2f9;
@@ -107,10 +141,11 @@ h4 {
     border: 1px solid #bbdef3;
   }
 }
+
 .image {
   border: 1px solid rgb(12, 11, 11);
   margin-top: 0.5rem;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   width: 100%;
   height: 250px;
   opacity: 1.2;
@@ -118,11 +153,13 @@ h4 {
   cursor: progress;
   background-attachment: fixed;
 }
+
 .image:hover {
   opacity: 0.9;
   transform: scale(1.1, 1.1);
   background-color: #000;
 }
+
 .cards_h4 {
   color: #123e58d1;
   font-size: 1rem;
@@ -132,28 +169,58 @@ h4 {
 
 .App {
   text-align: center;
+
 }
+
+
+
+body::-webkit-scrollbar {
+  width: 10px;
+  /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #fff;
+  /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #282c34;
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 1px solid rgb(0, 255, 136);
+  /* creates padding around scroll thumb */
+}
+
+
+
 .d-inline-block,
 .align-top {
   padding-left: 2rem;
 }
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
 .logo {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .logo h1 {
   font-size: 1.2rem;
 }
+
 .navBar {
   background-color: #282c34;
   display: flex;
   /* justify-content: space-between; */
 }
+
 .nav_paginado {
   display: flex;
   justify-content: space-evenly;
@@ -165,28 +232,38 @@ h4 {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
 .navBar {
   display: flex;
 }
+
 .App-header {
   background-color: #282c34;
   align-items: center;
   margin: 0 auto;
 }
+
 @media (min-width: 768px) {
   .App-header {
+    position: fixed;
     display: flex;
-    /* background-color: #282c34; */
+    background-color: #282c34;
     align-items: center;
     justify-content: space-between;
     font-size: calc(10px + 2vmin);
+    top: 0;
+    margin: 0 auto;
+    width: 100%;
   }
+
   h1 {
     font-size: 1rem;
   }
+
   h3 {
     font-size: 1.5rem;
   }
+
   h4 {
     font-size: 1rem;
     color: rgb(7, 1, 36);
@@ -205,6 +282,7 @@ h4 {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

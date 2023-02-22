@@ -7,13 +7,12 @@ import { useHistory } from "react-router";
 
 const validate = (input) => {
   let errors = {};
-  if (!input.name) {
-    errors.name = "Campo requerido ingresa un nombre";
-  } else if (!input.released) {
+  if (input.name === "") errors.name = "Campo requerido ingresa un nombre";
+  if (input.released === "" || input.released === "mm/dd/aaaa")
     errors.released = "Campo requerido ingresa una fecha";
-  } else if (!input.rating) {
-    errors.rating = "Campo requerido ingresa un Rating";
-  }
+  if (input.rating === "") errors.rating = "Campo requerido ingresa un Rating";
+  if (input.description === "")
+    errors.description = "Campo requerido ingresa un descripción";
   return errors;
 };
 
@@ -22,7 +21,11 @@ const CreateVideogame = () => {
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
+
   const history = useHistory();
+  const [activarBoton, setActivarBoton] = useState(true);
+  const [nombrePlataforma, setNombrePlataforma] = useState([]);
+  const [gener, setGenero] = useState([]);
   useEffect(() => {
     dispatch(getGenres());
     dispatch(getPlatforms());
@@ -33,7 +36,7 @@ const CreateVideogame = () => {
     description: "",
     released: "",
     image: "",
-    rating: null,
+    rating: "",
     genreId: [],
     platformId: [],
   });
@@ -52,6 +55,8 @@ const CreateVideogame = () => {
 
   const handleSelect = (e) => {
     let genInt = parseInt(e.target.value);
+    let genero = document.getElementById("selectGeneros");
+    setGenero(genero.options[genero.selectedIndex].text);
     setInput({
       ...input,
       genreId: [...input.genreId, genInt],
@@ -59,6 +64,9 @@ const CreateVideogame = () => {
   };
 
   const handleSelectPlatforms = (e) => {
+    let temp = document.getElementById("selectPlataformas");
+
+    setNombrePlataforma(temp.options[temp.selectedIndex].text);
     let platfInt = parseInt(e.target.value);
     setInput({
       ...input,
@@ -68,22 +76,21 @@ const CreateVideogame = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.name === "") {
-      alert("Ingresa un Videogame");
-    } else {
-      postVideogame(input);
-      alert("Videogame creado con exito");
-      setInput({
-        name: "",
-        description: "",
-        released: "",
-        image: "",
-        rating: null,
-        genreId: [],
-        platformId: [],
-      });
-      history.push("/home");
-    }
+
+    postVideogame(input);
+    alert("Videogame creado con éxito");
+    setInput({
+      name: "",
+      description: "",
+      released: "",
+      image: "",
+      rating: "",
+      genreId: [],
+      platformId: [],
+    });
+    history.push("/home");
+
+    e.target.reset();
   };
 
   return (
@@ -91,11 +98,7 @@ const CreateVideogame = () => {
       <Nav />
       <div className="form_videogame">
         <h1>Crear videogame</h1>
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <div className="data_input">
             <div className="datos">
               <label>Name:</label>
@@ -103,7 +106,7 @@ const CreateVideogame = () => {
                 type="text"
                 value={input.name}
                 name="name"
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
               />
               {errors.name && <p>{errors.name}</p>}
             </div>
@@ -112,8 +115,8 @@ const CreateVideogame = () => {
               <input
                 type="Date"
                 value={input.released}
-                name="released"
-                onChange={(e) => handleChange(e)}
+                name={"released"}
+                onChange={handleChange}
               />
               {errors.released && <p>{errors.released}</p>}
             </div>
@@ -125,7 +128,7 @@ const CreateVideogame = () => {
                 value={input.rating}
                 name="rating"
                 min="0"
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
               />
               {errors.rating && <p>{errors.rating}</p>}
             </div>
@@ -135,30 +138,72 @@ const CreateVideogame = () => {
                 type="textarea"
                 value={input.description}
                 name="description"
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
               />
               {errors.description && <p>{errors.description}</p>}
             </div>
             <div className="datos">
               <label>Genres:</label>
-              <select onChange={(e) => handleSelect(e)}>
-                {genres.map((gen) => (
-                  <option value={gen.id}>{gen.name}</option>
-                ))}
+              <select id="selectGeneros" onChange={(e) => handleSelect(e)}>
+                {genres &&
+                  genres.map((gen) => (
+                    <option key={gen.id} value={gen.id}>
+                      {gen.name}
+                    </option>
+                  ))}
               </select>
-              <h4>{input.genreId}</h4>
+              <h4>{gener}</h4>
             </div>
             <div className="datos">
               <label>Platforms:</label>
-              <select onChange={(e) => handleSelectPlatforms(e)}>
+              <select id="selectPlataformas" onChange={handleSelectPlatforms}>
                 {platforms.map((plat) => (
-                  <option value={plat.id}>{plat.name}</option>
+                  <option key={plat.name} value={plat.id} name={plat.name}>
+                    {plat.name}
+                  </option>
                 ))}
               </select>
-              <h4>{input.platformId}</h4>
+              <h4>{nombrePlataforma}</h4>
             </div>
           </div>
-          <button type="submit">Agregar Videogame</button>
+          {input.description === "" ||
+          input.genreId === "" ||
+          input.name === "" ||
+          input.description === "" ||
+          input.rating === "" ||
+          input.platformId === "" ? (
+            <button
+              style={{
+                border: "1px red solid",
+                height: "35px",
+                borderRadius: "5px",
+                background: "grey",
+                opacity: ".8",
+                cursor: "pointer",
+                color: "#fff",
+                padding: "10px",
+              }}
+              disabled={activarBoton}
+              type="submit"
+            >
+              Agregar Videogame
+            </button>
+          ) : (
+            <button
+              style={{
+                border: "1px green solid",
+                background: "cyan",
+                height: "35px",
+                borderRadius: "5px",
+                color: "#fff",
+                padding: "10px",
+              }}
+              disabled={!activarBoton}
+              type="submit"
+            >
+              Agregar Videogame
+            </button>
+          )}
         </form>
       </div>
     </div>

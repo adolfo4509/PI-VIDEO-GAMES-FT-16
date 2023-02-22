@@ -16,7 +16,7 @@ import Nav from "../Nav/Nav";
 function Home() {
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
-  const [orden, setOrden] = useState();
+  const [, setOrden] = useState();
 
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,9 +38,7 @@ function Home() {
   useEffect(() => {
     dispatch(selectGameGenres());
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(filterCreate());
-  }, [dispatch]);
+
   const handleClick = (e) => {
     e.preventDefault();
     setOrden(e.target.value);
@@ -64,9 +62,13 @@ function Home() {
     setOrden(e.target.value);
   }
   const handleOrderCreated = (e) => {
+    let creados = e.target.value;
     e.preventDefault();
-
-    dispatch(filterCreate(e.target.value));
+    if (creados === "Created") {
+      dispatch(filterCreate(e.target.value));
+    } else {
+      dispatch(getVideogames());
+    }
     setOrden(e.target.value);
   };
   return (
@@ -83,11 +85,11 @@ function Home() {
       <div className="select">
         <div>
           <p>Filtrar por Generos</p>
-          <select className="select-css" onChange={(e) => handleOnChange(e)}>
+          <select onChange={(e) => handleOnChange(e)}>
             <option>Selecciona una opción</option>
-            {allGenres.map(({ ID, name }) => {
+            {allGenres.map(({ name }) => {
               return (
-                <option key={ID} value={name}>
+                <option key={name} value={name}>
                   {name}
                 </option>
               );

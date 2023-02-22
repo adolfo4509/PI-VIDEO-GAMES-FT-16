@@ -12,9 +12,9 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Route exact path="/" component={Landing} />
-        <Route exact path="/home" component={Home} />
+        <Route path="/home" component={Home} />
         <Route path="/videogame" component={CreateVideogame} />
-        <Route path="/home/:id" component={Detail} />
+        <Route path="/detail/:id" component={Detail} />
         <Route path="/game/:videogameId" component={AddImage} />
       </div>
     </BrowserRouter>

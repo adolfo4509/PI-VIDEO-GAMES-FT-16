@@ -4,9 +4,8 @@ import "./landing.css";
 const Landing = () => {
   return (
     <div className="landing">
-      <div>
-        <h3> Landing...</h3>
-      </div>
+      <h3> Landing...</h3>
+
       <div className="spinner"></div>
       <Link to="/home">
         <div className="boton">
