@@ -5,7 +5,7 @@ const { API_KEY } = process.env;
 const apiInfo = async () => {
   const getVideogamesPromises = [];
 
-  for (let index = 0; index < 2; index++) {
+  for (let index = 0; index < 10; index++) {
     getVideogamesPromises.push(
       axios.get(
         ` https://api.rawg.io/api/games?key=${API_KEY}&page=${index + 1}`
@@ -22,21 +22,22 @@ const apiInfo = async () => {
   }
   return results;
 };
+
 const getDbInfo = async () => {
   const dbInfo = await Videogame.findAll({
-    include: [{ model: Genres }, { model: Platforms }, { model: Image }],
+    include: [{ model: Genres }, { model: Platforms }],
   });
-
   let temp = dbInfo.map((e) => {
     return {
       id: e.dataValues.id,
-      image: e.dataValues.images.map((el) => el.dataValues.name),
+      image: e.dataValues.background_image,
       rating: e.dataValues.rating,
       name: e.dataValues.name,
       released: e.dataValues.released,
       genres: e.dataValues.genres.map((el) => el.dataValues.name),
       platforms: e.dataValues.platforms.map((el) => el.dataValues.name),
       createInDb: e.dataValues.createInDb,
+      descriptions: e.dataValues.description,
     };
   });
   return temp;
@@ -60,8 +61,10 @@ async function getAllInfo() {
   const dbInfo = await getDbInfo();
 
   const totalApi = temp.concat(dbInfo).flat();
+
   return totalApi;
 }
+
 const platfor = async () => {
   const plataformas = await apiInfo();
   const plat = plataformas.map((e) => e.platforms).flat();
@@ -70,10 +73,11 @@ const platfor = async () => {
   const filteredArray = plataformaFilter.filter((ele, pos) => {
     return plataformaFilter.indexOf(ele) == pos;
   });
+
   //AQUI SACO TODAS LAS PLATAFORMAS
   let platf = filteredArray.map((e) => {
     return { name: e };
   });
   return platf;
 };
-module.exports = { apiInfo, getAllInfo, platfor };
+module.exports = { apiInfo, getAllInfo, platfor, getDbInfo };

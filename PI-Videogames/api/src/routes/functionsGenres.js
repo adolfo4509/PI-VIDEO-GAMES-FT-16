@@ -8,16 +8,17 @@ const genresInfo = async () => {
   );
 
   const infoGenres = await apiGenresInfo.data.results.map((e) => {
-    return { name: e.name };
+    return { id: e.id, name: e.name };
   });
-  //let dbGenres = [];
-  const consultDb = await Genres.findAll();
+
+  let dbGenres = [];
+  const consultDb = await Genres.findAll({});
 
   if (consultDb.length === 0) {
     await Genres.bulkCreate(infoGenres);
   }
 
-  return consultDb;
+  return infoGenres;
 };
 
 module.exports = { genresInfo };

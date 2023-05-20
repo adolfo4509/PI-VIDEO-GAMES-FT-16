@@ -46,6 +46,8 @@ Videogame.belongsToMany(Genres, { through: "VideoGame_Genres" });
 Genres.belongsToMany(Videogame, { through: "VideoGame_Genres" });
 Videogame.belongsToMany(Platforms, { through: "VideoGame_Plataforms" });
 Platforms.belongsToMany(Videogame, { through: "VideoGame_Plataforms" });
+Image.belongsToMany(Videogame, { through: "VideoGame_Image" });
+Videogame.belongsToMany(Image, { through: "VideoGame_Image" });
 
 // Platforms.hasOne(Videogame, {
 //   foreignKey: {

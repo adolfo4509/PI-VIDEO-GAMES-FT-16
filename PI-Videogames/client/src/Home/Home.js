@@ -16,6 +16,7 @@ import Nav from "../Nav/Nav";
 function Home() {
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
+
   const [, setOrden] = useState();
 
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ function Home() {
     indexOfFirtsvideogame,
     indexOfLastvideogame
   );
-  var images;
+
   const paginado = (pageNum) => {
     setCurrentPage(pageNum);
   };
@@ -141,11 +142,6 @@ function Home() {
       <div className="cards_breads">
         {currentBreads &&
           currentBreads.map((d) => {
-            if (typeof d.id === "string" && d.id.length > 10) {
-              images = d.image[0];
-            } else {
-              images = d.image;
-            }
             return (
               <Card
                 id={d.id}
@@ -155,7 +151,7 @@ function Home() {
                 released={d.released}
                 rating={d.rating}
                 description={d.description}
-                image={images}
+                image={d.image}
                 key={d.id}
               ></Card>
             );

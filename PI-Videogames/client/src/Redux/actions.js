@@ -90,6 +90,7 @@ export function getGenres() {
   };
 }
 export async function postVideogame(payload) {
+  console.log("desde la accion post", payload);
   await axios.post(VIDEOGAME_CREATE_URL, payload);
 }
 
@@ -104,15 +105,16 @@ export const getPlatforms = () => {
   };
 };
 export const getVideogameDetail = (id) => {
+  console.log("desde la accion este es el ID", id);
   return async (dispatch) => {
     try {
-      var json = await axios.get(VIDEOGAMEID_URL + id);
-      return dispatch({
+      const json = await axios.get(VIDEOGAMEID_URL + id);
+      dispatch({
         type: GET_VIDEOGAME_DETAIL,
         payload: json.data,
       });
     } catch (error) {
-      console.log(error);
+      console.log("desde la accion es el error", error);
     }
   };
 };
@@ -120,7 +122,6 @@ export function filterCreate(payload) {
   return { type: FILTER_CREATE, payload };
 }
 export const postAllImagesVideogame = (id, payload) => {
-  console.log("desdes la accion", IMAGES_URL);
   return async () => {
     try {
       await axios.post(`${IMAGES_URL}?image_Videogame=${id}`, payload);

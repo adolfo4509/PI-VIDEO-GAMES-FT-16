@@ -9,7 +9,6 @@ const router = Router();
 
 router.get("/videogames", async (req, res, next) => {
   const gameAll = await getAllInfo();
-
   res.status(200).send(gameAll);
 });
 
@@ -20,6 +19,7 @@ Si no existe ningún videojuego mostrar un mensaje adecuado
 */
 router.get("/videogame/:name", async (req, res, next) => {
   const { name } = req.params;
+
   try {
     let infoApiUrl = await axios.get(
       ` https://api.rawg.io/api/games?key=${API_KEY}&search=${name}`
@@ -47,6 +47,7 @@ router.get("/videogame/:name", async (req, res, next) => {
 
     res.status(200).send(nameVideogame);
   } catch (error) {
+    console.log("hola mnudo desde el back", error);
     next(error);
   }
 });
@@ -59,10 +60,13 @@ Incluir los géneros asociados
 */
 router.get("/videogames/:id", async (req, res, next) => {
   const { id } = req.params;
-  try {
+
+  const idPeticion = id;
+  if (idPeticion.length <= 4) {
     let infoApiUrl = await axios.get(
       ` https://api.rawg.io/api/games/${id}?key=${API_KEY}`
     );
+
     const videogameDetail = infoApiUrl;
     let infoId = [videogameDetail.data].map((e) => {
       return {
@@ -78,34 +82,43 @@ router.get("/videogames/:id", async (req, res, next) => {
           .replace(/(\r\n|\n|\r)/gm, ""),
       };
     });
+
+    res.status(200).send(infoId);
+  } else {
     let videogameDb = async () => {
       return await Videogame.findAll({
-        include: {
-          model: Genres,
-          attributes: ["name"],
-          through: {
-            attributes: [],
+        include: [
+          {
+            model: Genres,
           },
+
+          {
+            model: Platforms,
+          },
+        ],
+        where: {
+          id: id,
         },
+      }).then((juego) => {
+        const juegosDb = juego.map((e) => {
+          return {
+            name: e.name,
+            rating: e.rating,
+            released: e.released,
+            description: e.description,
+            background_image: e.background_image,
+            createInDb: true,
+            genres: e.genres.map((e) => e.name),
+            platforms: e.platforms.map((e) => e.name),
+          };
+        });
+
+        return juegosDb;
       });
     };
-    const getAllInfo = async () => {
-      const apiInfo = infoId;
 
-      const dbInfo = await videogameDb();
-      const totalApi = infoId.concat(dbInfo);
-
-      return totalApi;
-    };
-    let videogameAll = await getAllInfo();
-
-    if (id) {
-      let videogameId = videogameAll.filter((e) => e.id == id.toString());
-      videogameId.length;
-      res.status(200).send(videogameId);
-    }
-  } catch (error) {
-    next(error);
+    let videoGDb = await videogameDb();
+    res.status(200).send(videoGDb);
   }
 });
 
@@ -130,6 +143,7 @@ router.post("/videogame", async (req, res, next) => {
     createdInDb,
     genreId,
     platformId,
+    background_image,
   } = req.body;
 
   try {
@@ -139,12 +153,15 @@ router.post("/videogame", async (req, res, next) => {
       description,
       released,
       rating,
+      genreId,
+      platformId,
       createdInDb,
+      background_image,
     });
     await videogameCreate.setGenres(genreId);
     await videogameCreate.setPlatforms(platformId);
 
-    res.status(200).send("Video creado");
+    res.status(200).send({ message: "Video creado exitosamente" });
   } catch (error) {
     next(error);
   }

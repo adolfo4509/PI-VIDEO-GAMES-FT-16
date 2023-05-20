@@ -21,11 +21,14 @@ const CreateVideogame = () => {
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
-
+  console.log("las plataformas desde el formulario", platforms);
   const history = useHistory();
+
   const [activarBoton, setActivarBoton] = useState(true);
   const [nombrePlataforma, setNombrePlataforma] = useState([]);
-  const [gener, setGenero] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const [genero, setGenero] = useState({ name: "" });
   useEffect(() => {
     dispatch(getGenres());
     dispatch(getPlatforms());
@@ -39,6 +42,7 @@ const CreateVideogame = () => {
     rating: "",
     genreId: [],
     platformId: [],
+    background_image: "",
   });
   const handleChange = (e) => {
     setInput({
@@ -54,23 +58,25 @@ const CreateVideogame = () => {
   };
 
   const handleSelect = (e) => {
-    let genInt = parseInt(e.target.value);
     let genero = document.getElementById("selectGeneros");
-    setGenero(genero.options[genero.selectedIndex].text);
+    let generoNombre = genero.options[genero.selectedIndex].text;
+    setGenero({ ...genero, name: generoNombre });
+
     setInput({
       ...input,
-      genreId: [...input.genreId, genInt],
+      genreId: [...input.genreId, e.target.value],
     });
   };
 
   const handleSelectPlatforms = (e) => {
     let temp = document.getElementById("selectPlataformas");
 
+    setShow(true);
     setNombrePlataforma(temp.options[temp.selectedIndex].text);
-    let platfInt = parseInt(e.target.value);
+
     setInput({
       ...input,
-      platformId: [...input.platformId, platfInt],
+      platformId: [...input.platformId, e.target.value],
     });
   };
 
@@ -92,7 +98,18 @@ const CreateVideogame = () => {
 
     e.target.reset();
   };
+  const deleletePlatfor = (e) => {
+    let span = document.getElementById("idSpan");
+    let elimanar = document.getElementById("idH4");
+    elimanar.removeChild(span);
+    let borrar = input;
+    setNombrePlataforma("");
+    let cerrar = e.target;
+    // innerHTML
+    //borrar.removeChild(cerrar);
 
+    console.log("hay que eliminarlo", e.target);
+  };
   return (
     <div className="created">
       <Nav />
@@ -142,9 +159,22 @@ const CreateVideogame = () => {
               />
               {errors.description && <p>{errors.description}</p>}
             </div>
+            <div>
+              <label htmlFor="idImagen">Image</label>
+              <input
+                onChange={handleChange}
+                value={input.background_image}
+                name={"background_image"}
+                type="text"
+              />
+            </div>
             <div className="datos">
               <label>Genres:</label>
-              <select id="selectGeneros" onChange={(e) => handleSelect(e)}>
+              <select
+                id="selectGeneros"
+                name="genreId"
+                onChange={(e) => handleSelect(e)}
+              >
                 {genres &&
                   genres.map((gen) => (
                     <option key={gen.id} value={gen.id}>
@@ -152,18 +182,55 @@ const CreateVideogame = () => {
                     </option>
                   ))}
               </select>
-              <h4>{gener}</h4>
+              <label htmlFor="selectGeneros">{genero.name}</label>
             </div>
             <div className="datos">
-              <label>Platforms:</label>
-              <select id="selectPlataformas" onChange={handleSelectPlatforms}>
+              <label>Plataformas:</label>
+              <select
+                id="selectPlataformas"
+                name="platformId"
+                onChange={(e) => handleSelectPlatforms(e)}
+              >
                 {platforms.map((plat) => (
-                  <option key={plat.name} value={plat.id} name={plat.name}>
+                  <option key={plat.id} value={plat.id} name={plat}>
                     {plat.name}
                   </option>
                 ))}
               </select>
-              <h4>{nombrePlataforma}</h4>
+
+              {show ? (
+                <h4
+                  id="idH4"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
+                  {nombrePlataforma}
+                  <div
+                    id="idSpan"
+                    //value={nombrePlataforma}
+                    style={{
+                      background: "cyan",
+                      height: "25px",
+                      width: "25px",
+                      borderRadius: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      border: "1px solid red",
+                    }}
+                    onClick={deleletePlatfor}
+                  >
+                    <span>X</span>
+                  </div>
+                </h4>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           {input.description === "" ||

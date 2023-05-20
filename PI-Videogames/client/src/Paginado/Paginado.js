@@ -1,12 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+
 import "./paginados.css";
 
-export default function Paginado({ videogamePerPage, paginado }) {
-  const allVideogame = useSelector((state) => state.videogameLoad);
-
+export default function Paginado({ videogamePerPage, paginado, allvideogame }) {
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(allVideogame.length / videogamePerPage); i++) {
+  for (let i = 1; i <= Math.ceil(allvideogame.length / videogamePerPage); i++) {
     pageNumbers.push(i);
   }
 
