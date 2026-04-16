@@ -3,6 +3,34 @@
   margin: 0 auto;
 }
 
+select {
+  cursor: pointer;
+  appearance: none;
+  width: 160px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+option {
+  cursor: pointer;
+}
+
+.boton_home {
+  height: 40px;
+  border: none;
+  background-color: #282c34;
+  color: #d416d4;
+  box-shadow: 2px 2px 3px rgba(35, 194, 243, 0.842);
+  border-radius: 5px;
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: "Lato", sans-serif;
+}
+
+.boton_home:hover {
+  color: yellow;
+}
+
 .app {
   background-color: cyan;
 }
@@ -15,7 +43,7 @@
 @media (min-width: 768px) {
   .container {
     max-width: 120rem;
-    margin: 77px auto;
+    margin: 0 auto;
   }
 
   .container::-webkit-scrollbar {
@@ -89,11 +117,23 @@ h4 {
   box-shadow: none;
 }
 
+.search_input::placeholder {
+  color: #d416d4;
+  font-size: 1.3rem;
+  font-family: "Lato", sans-serif;
+
+
+  padding-top: 10px;
+}
+
 @media (min-width: 768px) {
   .search_input {
     font-size: 1rem;
     border: none;
     border-radius: 0.5rem;
+    height: 35px;
+    box-shadow: 2px 2px 3px rgba(35, 194, 243, 0.842);
+
   }
 }
 
@@ -139,6 +179,7 @@ h4 {
     border-radius: 0.2rem;
     padding-bottom: 0.8rem;
     border: 1px solid #bbdef3;
+    width: 270px;
   }
 }
 
@@ -241,6 +282,8 @@ body::-webkit-scrollbar-thumb {
   background-color: #282c34;
   align-items: center;
   margin: 0 auto;
+  position: fixed;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -254,6 +297,7 @@ body::-webkit-scrollbar-thumb {
     top: 0;
     margin: 0 auto;
     width: 100%;
+    z-index: 3;
   }
 
   h1 {

@@ -40,11 +40,12 @@ function rootReducer(state = inicialState, action) {
       };
     case MOSTRAR_BY_GENRES:
       let filterByGenres = state.videogameLoad.filter((e) => {
-        return [e.genres].join("").includes(action.payload);
+        return e.genres.join("").includes(action.payload);
       });
+
       return {
         ...state,
-        videogameLoad: filterByGenres,
+        videogameLoad: filterByGenres === false ? state : filterByGenres,
       };
     case ORDER_BY_NAME:
       let sortArr =
@@ -66,7 +67,6 @@ function rootReducer(state = inicialState, action) {
               }
               return 0;
             });
-
       return {
         ...state,
         videogameLoad: sortArr,

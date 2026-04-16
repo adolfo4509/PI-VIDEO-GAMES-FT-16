@@ -1,0 +1,22 @@
+.contenedor_abajo {
+  width: 17px;
+  height: 17px;
+  background-color: #282c34;
+  border-radius: 50%;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.flecha_abajo {
+  width: 0;
+  height: 0;
+  margin-left: -2px;
+  margin-top: 2px;
+  border-left: 4px solid transparent;
+  border-top: 8px solid #f416d4;
+  border-right: 4px solid transparent;
+}

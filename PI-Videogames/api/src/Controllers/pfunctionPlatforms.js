@@ -1,9 +1,10 @@
 const { Platforms } = require("../db");
-const { apiInfo } = require("./functions");
+const { apiInfo } = require("./allVideoGames");
 
 const platfor = async () => {
   const plataformas = await apiInfo();
   const plat = plataformas.map((e) => e.platforms).flat();
+ 
   const temp = plat
     .map((e) => e.platform)
     .map((e) => {

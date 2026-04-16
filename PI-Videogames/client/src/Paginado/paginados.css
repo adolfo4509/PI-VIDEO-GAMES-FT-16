@@ -1,7 +1,26 @@
-.nav_paginado1 {
-  display: flex;
-  justify-content: center;
+.nav_paginado {
+
+  width: 100%;
+  padding-top: 100px;
 }
+
+.contendor {
+  margin-left: 20px;
+  width: 100%;
+
+}
+
+.paginado {
+  background-color: cyan;
+}
+
+.cards_bread {
+  grid-gap: 10px;
+  min-width: 90%;
+  margin: 0 auto;
+
+}
+
 .App-link1 {
   color: #fff;
   text-decoration: none;
@@ -13,9 +32,20 @@
   background-color: #123e58d1;
   cursor: pointer;
 }
+
 .paginas {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .cards_breads {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    width: 4rem;
+    min-width: 90%;
+  }
 }
