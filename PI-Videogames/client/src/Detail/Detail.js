@@ -6,88 +6,117 @@ import("./detail.css");
 
 const Detail = (props) => {
   const { id } = props.match.params;
-  const [limpio, setLimpio] = useState(true);
+
   const dispatch = useDispatch();
-  const [muestraPopUp, setMuestraPopUp] = useState(false);
+  const [muestraPopUp, setMuestraPopUp] = useState(true);
   const myVideogame = useSelector((e) => e.videogameDetail);
 
   const popUp = () => {
     return (
       <>
-        <div
-          style={{
-            position: "absolute",
-
-            backdropFilter: "blur(4px)",
-            width: "100vw",
-            height: "100vh",
-          }}
-        >
-          <p
+        {muestraPopUp ? (
+          <p>landing...</p>
+        ) : (
+          <div
             style={{
-              color: "green",
-              fontSize: "22px",
-              position: "relative",
-              justifyContent: "center",
-              alignContent: "center",
-              display: "flex",
-              lineHeight: "570px",
+              position: "fixed",
+              background: "rgba(136,136,136,49%)",
+              backdropFilter: "blur(4px)",
+              width: "100vw",
+              height: "100vh",
             }}
           >
-            VideoGame Not Found
-          </p>
-        </div>
+            <div
+              style={{
+                width: "250px",
+                height: "200px",
+                background: "rgba(255,255,255,30%)",
+                alignContent: "center",
+                margin: "auto",
+                display: "flex",
+                lineHeight: "300px",
+              }}
+            >
+              <p
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  lineHeight: "250px",
+                  fontSize: "22px",
+                }}
+              >
+                {myVideogame.message}
+              </p>
+            </div>
+          </div>
+        )}
       </>
     );
   };
-  console.log("mi juego", myVideogame);
+  
   useEffect(() => {
     dispatch(getVideogameDetail(id));
-    if (myVideogame.length > 0) {
+    if (myVideogame?.length === 0 || myVideogame?.length > 0) {
       setTimeout(() => {
-        setLimpio(false);
         setMuestraPopUp(false);
       }, 1200);
-    } else {
-      setLimpio(false);
-      setMuestraPopUp(true);
+    } else if (myVideogame?.message === "Videogame not found") {
+      setMuestraPopUp(false);
     }
-  }, [dispatch, id]);
+  }, [ id]);
   return (
     <div>
       <Nav />
-      {muestraPopUp ? popUp() : ""}
+
       <div className="cards_details">
-        {limpio ? (
-          <p>landing...</p>
+        {muestraPopUp ? (
+          popUp()
         ) : (
           <div className="cards_details_">
-            <h2>
-              {" "}
-              <span>Name:</span> {myVideogame[0]?.name}
-            </h2>
-            <img
-              className="image_Detail"
-              src={myVideogame[0]?.background_image}
-              alt=" img not found"
-            />
-            <p className="description">
-              <span>genres:</span> {myVideogame[0]?.genres}
-            </p>
-            <p className="description">
-              <span>platform: </span>
-              {myVideogame[0]?.platforms}
-            </p>
-            <p className="description">
-              <span>rating:</span> {myVideogame[0]?.rating}
-            </p>
-            <p className="description">
-              <span>released: </span>
-              {myVideogame[0]?.released}
-            </p>
-            <p className="description1">
-              <span>description:</span> {myVideogame[0]?.description}
-            </p>
+          {!myVideogame.message ? myVideogame?.map(
+              ({
+                name,
+                background_image,
+                genres,
+                platforms,
+                rating,
+                released,
+                description,
+              }) => {
+                return (
+                  <>
+                    <h2>Name:  <p>{name}</p></h2>
+                    <img
+                      className="image_Detail"
+                      src={background_image}
+                      alt=" img not found"
+                    />
+                    <h2>
+                    Genres:
+                     <p> { genres }</p>
+                    </h2>
+                    <h2 className="description">
+                    Platform:
+                      <p>  {platforms}</p>
+                     
+                    </h2>
+                    <h2 className="description">
+                      <p>rating: {rating}</p> 
+                    </h2>
+                    <h2 className="description">
+                    Released: 
+                      <p> {released} </p>
+                     
+                    </h2>
+                    <h2 className="description1">
+                    Description:
+                      <p> {description}</p> 
+                    </h2>
+                  </>
+                );
+              }
+            ):<p>{myVideogame.message}</p>}
           </div>
         )}
       </div>

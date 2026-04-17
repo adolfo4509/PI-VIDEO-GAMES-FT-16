@@ -5,7 +5,7 @@ const { API_KEY } = process.env;
 const apiInfo = async () => {
   const getVideogamesPromises = [];
 
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < 50; index++) {
     getVideogamesPromises.push(
       axios.get(
         ` https://api.rawg.io/api/games?key=${API_KEY}&page=${index + 1}`
@@ -27,6 +27,7 @@ const getDbInfo = async () => {
   const dbInfo = await Videogame.findAll({
     include: [{ model: Genres }, { model: Platforms }],
   });
+
   let temp = dbInfo.map((e) => {
     return {
       id: e.dataValues.id,
@@ -54,7 +55,7 @@ async function getAllInfo() {
       rating: e.rating,
       released: e.released,
       genres: e.genres.map((e) => e.name + " "),
-      platforms: e.platforms.map((e) => e.platform).map((e) => e.name),
+      platforms: e.platforms.map((e) => e.platform).map((e) => e.name + " "),
     };
   });
 

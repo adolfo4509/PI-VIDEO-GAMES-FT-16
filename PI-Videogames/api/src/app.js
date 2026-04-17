@@ -2,7 +2,14 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const helmet = require("helmet");
 const routes = require("./routes/index.js");
+
+// Middlewares personalizados
+const securityHeaders = require("./middlewares/securityHeaders");
+const corsConfig = require("./middlewares/corsConfig");
+const requestLogger = require("./middlewares/requestLogger");
+const errorHandler = require("./middlewares/errorHandler");
 
 require("./db.js");
 
@@ -13,31 +20,44 @@ server.name = "API";
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(cookieParser());
-server.use(morgan("dev"));
-server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Credentials", "true"),
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    ),
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, DELETE"
-    ),
-    next();
-});
-server.use(express.json());
-server.use("/api", routes);
-server.use(morgan("dev"));
 
-// Error catching endware.
-server.use((err, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  const status = err.status || 500;
-  const message = err.message || err;
-  console.error("desde los errores Hola mundo", err);
-  res.sendStatus(status).send(message);
-});
+// Logging de requests (antes de otros middlewares)
+server.use(requestLogger);
+
+// Configurar Helmet con Content Security Policy (CSP)
+server.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "http://localhost:3000", "http://192.168.80.18:3000"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "http://localhost:3001", "http://192.168.80.18:3001"],
+      fontSrc: ["'self'", "data:"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+      upgradeInsecureRequests: []
+    }
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  },
+  referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+  noSniff: true,
+  xssFilter: true
+}));
+
+// Headers de seguridad personalizados
+server.use(securityHeaders);
+
+// Configuración CORS
+server.use(corsConfig);
+server.use("/api", routes);
+
+// Error catching endware
+server.use(errorHandler);
 
 module.exports = server;

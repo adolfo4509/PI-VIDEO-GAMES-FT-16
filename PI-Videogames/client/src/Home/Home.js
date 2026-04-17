@@ -11,55 +11,72 @@ import {
   filterCreate,
 } from "../Redux/actions";
 import "./home.css";
-import Nav from "../Nav/Nav";
+
+import FlaechaArriba from "../utilities/Arrows/FlechaAbajo";
+import FlechaAbajo from "../utilities/Arrows/FlechaAbajo";
+import FlechaArriba from "../utilities/Arrows/FlechaArriba";
 
 function Home() {
   var allGenres = useSelector((state) => state.allGenres);
   var allVideogame = useSelector((state) => state.videogameLoad);
-
   const [, setOrden] = useState();
-
+  const [abajo, setabajo] = useState(true);
+  const [abajoDes, setabajoDes] = useState(true);
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [videogamePerPage] = useState(15);
-  const indexOfLastvideogame = currentPage * videogamePerPage;
-  const indexOfFirtsvideogame = indexOfLastvideogame - videogamePerPage;
-  const currentBreads = allVideogame.slice(
-    indexOfFirtsvideogame,
-    indexOfLastvideogame
-  );
 
-  const paginado = (pageNum) => {
-    setCurrentPage(pageNum);
+
+  let temp = window.onload = function () {
+    if (allVideogame.length === 0) {
+      dispatch(getVideogames());
+    }
   };
 
-  useEffect(() => {
-    dispatch(getVideogames()); //se hace un dispatch con la accion como parametro
-  }, [dispatch]);
+
   useEffect(() => {
     dispatch(selectGameGenres());
+    temp();
   }, [dispatch]);
+  const onMouseDown = (e) => {
+    const { name, value } = e.target;
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setOrden(e.target.value);
-    dispatch(getVideogames(e.target.value));
+    if (name === "generos") {
+      setabajo(false);
+    }
+    if (value === "Asc") {
+      setabajoDes(false);
+    } else {
+      setabajoDes(true);
+    }
+  };
+  const onFocus = (e) => {
+    let name = e.target.name;
+    if (name === "ascDes") {
+      setabajoDes(true);
+    }
+    if (name === "generos") {
+      setabajo(true);
+    }
   };
   const handleOnChange = (e) => {
+    const { value } = e.target;
     e.preventDefault();
-    setOrden(e.target.value);
-    dispatch(fileterByGenres(e.target.value));
+    if (value !== "Asc") {
+      setabajoDes(true);
+    }
+    setabajo(true);
+    dispatch(fileterByGenres(value));
   };
   function handleSortAsc(e) {
+    const { value } = e.target;
+
+    setabajoDes(true);
     e.preventDefault();
-    dispatch(orderByName(e.target.value));
-    setCurrentPage(1);
-    setOrden(e.target.value);
+    dispatch(orderByName(value));
   }
   function handleSort(e) {
     e.preventDefault();
     dispatch(orderByRating(e.target.value));
-    setCurrentPage(1);
+
     setOrden(e.target.value);
   }
   const handleOrderCreated = (e) => {
@@ -74,19 +91,17 @@ function Home() {
   };
   return (
     <div className="container">
-      <Nav />
-      <button
-        className="cargar"
-        onClick={(e) => {
-          handleClick(e);
-        }}
-      >
-        Regresar
-      </button>
+
+
       <div className="select">
         <div>
           <p>Filtrar por Generos</p>
-          <select onChange={(e) => handleOnChange(e)}>
+          <select
+            onChange={handleOnChange}
+            onMouseDown={onMouseDown}
+            onBlur={onFocus}
+            name="generos"
+          >
             <option>Selecciona una opción</option>
             {allGenres.map(({ name }) => {
               return (
@@ -96,10 +111,25 @@ function Home() {
               );
             })}
           </select>
+          {abajo ? (
+            <div div className="flecha_abajo_">
+              <FlechaAbajo />
+            </div>
+          ) : (
+            <div className="flecha_arriba_">
+              <FlechaArriba />
+            </div>
+          )}
         </div>
         <div>
           <p>Filtrar en Orden </p>
-          <select onChange={(e) => handleSortAsc(e)} className="filter_select">
+          <select
+            onChange={handleSortAsc}
+            className="filter_select"
+            onMouseDown={onMouseDown}
+            onBlur={onFocus}
+            name="ascDes"
+          >
             <option className="ordenar" value="Asc">
               Ascendente
             </option>
@@ -107,6 +137,15 @@ function Home() {
               Descendente
             </option>
           </select>
+          {abajoDes ? (
+            <div div className="flecha_abajo_des">
+              <FlechaAbajo />
+            </div>
+          ) : (
+            <div className="flecha_arriba_des">
+              <FlechaArriba />
+            </div>
+          )}
         </div>
         <div>
           <p>Rating</p>
@@ -133,35 +172,7 @@ function Home() {
         </div>
       </div>
 
-      <Paginado
-        videogamePerPage={videogamePerPage}
-        allvideogame={allVideogame}
-        paginado={paginado}
-      />
-
-      <div className="cards_breads">
-        {currentBreads &&
-          currentBreads.map((d) => {
-            return (
-              <Card
-                id={d.id}
-                name={d.name}
-                genres={d.genres}
-                platforms={d.platforms}
-                released={d.released}
-                rating={d.rating}
-                description={d.description}
-                image={d.image}
-                key={d.id}
-              ></Card>
-            );
-          })}
-      </div>
-      <Paginado
-        videogamePerPage={videogamePerPage}
-        allvideogame={allVideogame}
-        paginado={paginado}
-      />
+      <Paginado allvideogame={allVideogame} />
     </div>
   );
 }

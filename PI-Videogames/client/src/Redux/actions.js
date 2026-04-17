@@ -1,13 +1,5 @@
-import axios from "axios";
-import {
-  VIDEOGAMES_URL,
-  GENRES_URL,
-  VIDEOGAMENAME_URL,
-  BASE_PLATAFORMS,
-  VIDEOGAMEID_URL,
-  VIDEOGAME_CREATE_URL,
-  IMAGES_URL,
-} from "../Constantes/Constans";
+import apiClient from "../services/axiosConfig";
+
 export const GET_VIDEOGAME = "GET_VIDEOGAME";
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
 export const MOSTRAR_BY_GENRES = "MOSTRAR_BY_GENRES";
@@ -23,25 +15,26 @@ export const FILTER_CREATE = "FILTER_CREATE";
 export const getVideogames = () => {
   return async (dispatch) => {
     try {
-      var json = await axios.get(VIDEOGAMES_URL);
+      var json = await apiClient.get("videogames/videogames");
       return dispatch({
         type: GET_VIDEOGAME,
         payload: json.data,
       });
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching videogames:", error);
     }
   };
 };
 export function selectGameGenres() {
   return async function (dispatch) {
     try {
-      return axios.get(GENRES_URL).then((videogames) => {
-        dispatch({
-          type: FILTER_BY_GENRES,
-          payload: videogames.data,
-        });
+      var data = await apiClient.get("genres/genres");
+      return dispatch({
+        type: FILTER_BY_GENRES,
+        payload: data.data,
       });
+
+
     } catch (error) {
       console.log("Es un error", error);
     }
@@ -56,7 +49,7 @@ export function fileterByGenres(payload) {
 export function searchVideogame(name) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(VIDEOGAMENAME_URL + name);
+      var json = await apiClient.get(`videogames/videogame/${name}`);
       dispatch({
         type: SEARCH_GAMES,
         payload: json.data,
@@ -78,7 +71,7 @@ export function orderByRating(payload) {
 export function getGenres() {
   return async function (dispatch) {
     try {
-      return axios.get(GENRES_URL).then((videogames) => {
+      return apiClient.get("genres/genres").then((videogames) => {
         dispatch({
           type: GET_GENRES,
           payload: videogames.data,
@@ -90,13 +83,13 @@ export function getGenres() {
   };
 }
 export async function postVideogame(payload) {
-  console.log("desde la accion post", payload);
-  await axios.post(VIDEOGAME_CREATE_URL, payload);
+  const temp = await apiClient.post("videogames/videogame", payload);
+  return temp;
 }
 
 export const getPlatforms = () => {
   return async (dispatch) => {
-    return axios.get(BASE_PLATAFORMS).then((videogames) => {
+    return apiClient.get("platforms/plataforms").then((videogames) => {
       dispatch({
         type: GET_PLATFORMS,
         payload: videogames.data,
@@ -104,27 +97,29 @@ export const getPlatforms = () => {
     });
   };
 };
+
 export const getVideogameDetail = (id) => {
-  console.log("desde la accion este es el ID", id);
   return async (dispatch) => {
     try {
-      const json = await axios.get(VIDEOGAMEID_URL + id);
+      const json = await apiClient.get(`videogames/videogames/${id}`);
       dispatch({
         type: GET_VIDEOGAME_DETAIL,
         payload: json.data,
       });
     } catch (error) {
-      console.log("desde la accion es el error", error);
+      return error;
     }
   };
 };
+
 export function filterCreate(payload) {
   return { type: FILTER_CREATE, payload };
 }
+
 export const postAllImagesVideogame = (id, payload) => {
   return async () => {
     try {
-      await axios.post(`${IMAGES_URL}?image_Videogame=${id}`, payload);
+      await apiClient.post(`image?image_Videogame=${id}`, payload);
     } catch (err) {
       console.error(err);
     }

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 require("dotenv").config();
-const { platfor } = require("./pfunctionPlatforms");
+const { platfor } = require("../Controllers/pfunctionPlatforms");
 
 const router = Router();
 

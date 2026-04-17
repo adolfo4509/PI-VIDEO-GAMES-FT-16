@@ -1,0 +1,22 @@
+.contenedor_arriba_ {
+  width: 17px;
+  height: 17px;
+  background-color: #282c34;
+  border-radius: 50%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.flecha_arriba {
+  width: 0;
+  height: 0;
+  margin-left: 1px;
+  margin-top: -1px;
+  border-left: 4px solid transparent;
+  border-bottom: 8px solid #f416d4;
+  border-right: 4px solid transparent;
+}

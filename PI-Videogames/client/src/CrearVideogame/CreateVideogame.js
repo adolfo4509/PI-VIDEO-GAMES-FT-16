@@ -3,32 +3,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getPlatforms } from "../Redux/actions";
 import Nav from "../Nav/Nav";
 import "./created.css";
-import { useHistory } from "react-router";
 
 const validate = (input) => {
-  let errors = {};
-  if (input.name === "") errors.name = "Campo requerido ingresa un nombre";
-  if (input.released === "" || input.released === "mm/dd/aaaa")
+
+  let errors = {
+    name: "",
+    released: "",
+    rating: "",
+    description: "",
+    background_image: "",
+  };
+  if (input.name.length < 1 || input.name.length > 15) {
+    errors.name =
+      "Campo requerido ingresa un nombre Valido no mayor a 5 caracteres y ,ayor a 1 caracter";
+  } else if (input.released === "" || input.released === "mm/dd/aaaa") {
     errors.released = "Campo requerido ingresa una fecha";
-  if (input.rating === "") errors.rating = "Campo requerido ingresa un Rating";
-  if (input.description === "")
+  } else if (
+    parseFloat(input.rating) > 5 ||
+    parseFloat(input.rating) < 0 ||
+    input.name.length < 1 ||
+    input.name.length > 15
+  ) {
+    errors.rating = "Ingresa un Rating menor a 5 y mayor o igual a 0";
+  } else if (input.description === "") {
     errors.description = "Campo requerido ingresa un descripción";
+  }
+
   return errors;
 };
-
 const CreateVideogame = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const genres = useSelector((e) => e.genres);
   const platforms = useSelector((e) => e.platforms);
-  console.log("las plataformas desde el formulario", platforms);
-  const history = useHistory();
-
+  const [mensaje, setMensaje] = useState("");
+  const [mostrarPopUp, setMostrarPopUp] = useState(false);
   const [activarBoton, setActivarBoton] = useState(true);
   const [nombrePlataforma, setNombrePlataforma] = useState([]);
   const [show, setShow] = useState(false);
 
-  const [genero, setGenero] = useState({ name: "" });
+  const [generos, setGeneros] = useState([]);
   useEffect(() => {
     dispatch(getGenres());
     dispatch(getPlatforms());
@@ -38,63 +52,71 @@ const CreateVideogame = () => {
     name: "",
     description: "",
     released: "",
-    image: "",
     rating: "",
     genreId: [],
     platformId: [],
-    background_image: "",
+    background_image:
+      "https://th.bing.com/th/id/OIP.4jewR4iZLbQc4u7-lAKnZwHaEK?pid=ImgDet&rs.jpg",
   });
+
   const handleChange = (e) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    });
+    let plataformas = document.getElementById("selectPlataformas");
+    let genero = document.getElementById("selectGeneros");
+    let generoNombre = genero?.options[genero?.selectedIndex].text;
+    const { name, value } = e.target;
+
+    if (name === "platformId") {
+      setInput({
+        ...input,
+        [name]: input.platformId.concat(parseInt(value)),
+      });
+    } else if (name === "genreId") {
+      setInput({
+        ...input,
+        [name]: input.genreId.concat(parseInt(value)),
+      });
+    } else {
+      setInput({
+        ...input,
+        [name]: value,
+      });
+    }
+
     setErrors(
       validate({
         ...input,
-        [e.target.name]: e.target.value,
+        [name]: value,
       })
     );
-  };
+    if (name === "genreId") {
+      setGeneros(generos + " " + generoNombre);
+    }
 
-  const handleSelect = (e) => {
-    let genero = document.getElementById("selectGeneros");
-    let generoNombre = genero.options[genero.selectedIndex].text;
-    setGenero({ ...genero, name: generoNombre });
-
-    setInput({
-      ...input,
-      genreId: [...input.genreId, e.target.value],
-    });
-  };
-
-  const handleSelectPlatforms = (e) => {
-    let temp = document.getElementById("selectPlataformas");
-
+    if (name === "platformId") {
+      setNombrePlataforma(
+        nombrePlataforma +
+        " " +
+        plataformas.options[plataformas.selectedIndex].text
+      );
+    }
     setShow(true);
-    setNombrePlataforma(temp.options[temp.selectedIndex].text);
-
-    setInput({
-      ...input,
-      platformId: [...input.platformId, e.target.value],
-    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     postVideogame(input);
-    alert("Videogame creado con éxito");
+    const { data } = await postVideogame(input);
+    setMensaje(data.message);
+    setMostrarPopUp(true);
     setInput({
       name: "",
       description: "",
       released: "",
-      image: "",
+      background_image: "",
       rating: "",
       genreId: [],
       platformId: [],
     });
-    history.push("/home");
 
     e.target.reset();
   };
@@ -107,8 +129,9 @@ const CreateVideogame = () => {
     let cerrar = e.target;
     // innerHTML
     //borrar.removeChild(cerrar);
-
-    console.log("hay que eliminarlo", e.target);
+  };
+  const cerrarModal = () => {
+    setMostrarPopUp(false);
   };
   return (
     <div className="created">
@@ -125,7 +148,7 @@ const CreateVideogame = () => {
                 name="name"
                 onChange={handleChange}
               />
-              {errors.name && <p>{errors.name}</p>}
+              {errors.name ? <p>{errors.name}</p> : ""}
             </div>
             <div className="datos">
               <label>Released:</label>
@@ -135,7 +158,7 @@ const CreateVideogame = () => {
                 name={"released"}
                 onChange={handleChange}
               />
-              {errors.released && <p>{errors.released}</p>}
+              {errors.released ? <p>{errors.released}</p> : ""}
             </div>
             <div className="datos">
               <label>Rating:</label>
@@ -144,10 +167,9 @@ const CreateVideogame = () => {
                 type="number"
                 value={input.rating}
                 name="rating"
-                min="0"
                 onChange={handleChange}
               />
-              {errors.rating && <p>{errors.rating}</p>}
+              {errors.rating ? <p>{errors.rating}</p> : ""}
             </div>
             <div className="datos">
               <label>Description:</label>
@@ -157,44 +179,64 @@ const CreateVideogame = () => {
                 name="description"
                 onChange={handleChange}
               />
-              {errors.description && <p>{errors.description}</p>}
+              {errors.description ? <p>{errors.description}</p> : ""}
             </div>
+            {mostrarPopUp ? (
+              <div className="popUp">
+                <div className="popUpHijo">
+                  <label onClick={cerrarModal} className="cerraPopUp">
+                    X
+                  </label>
+                  <span className="span">{mensaje}</span>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
             <div>
               <label htmlFor="idImagen">Image</label>
               <input
                 onChange={handleChange}
                 value={input.background_image}
-                name={"background_image"}
+                name="background_image"
                 type="text"
               />
+              {errors.background_image ? <p>{errors.background_image}</p> : ""}
             </div>
             <div className="datos">
               <label>Genres:</label>
-              <select
-                id="selectGeneros"
-                name="genreId"
-                onChange={(e) => handleSelect(e)}
-              >
+              <select id="selectGeneros" name="genreId" onChange={handleChange}>
                 {genres &&
                   genres.map((gen) => (
-                    <option key={gen.id} value={gen.id}>
-                      {gen.name}
-                    </option>
+                    <>
+                      <option value="" hidden>
+                        Selecciona
+                      </option>
+                      <option key={gen.id} value={gen.id}>
+                        {gen.name}
+                      </option>{" "}
+                    </>
                   ))}
               </select>
-              <label htmlFor="selectGeneros">{genero.name}</label>
+              <label htmlFor="selectGeneros">{generos}</label>
             </div>
             <div className="datos">
               <label>Plataformas:</label>
               <select
                 id="selectPlataformas"
                 name="platformId"
-                onChange={(e) => handleSelectPlatforms(e)}
+                onChange={handleChange}
               >
                 {platforms.map((plat) => (
-                  <option key={plat.id} value={plat.id} name={plat}>
-                    {plat.name}
-                  </option>
+                  <>
+                    <option value="" hidden>
+                      Selecciona
+                    </option>
+                    <option key={plat.id} value={plat.id} name={plat}>
+                      {plat.name}
+                    </option>
+                  </>
                 ))}
               </select>
 
@@ -234,11 +276,11 @@ const CreateVideogame = () => {
             </div>
           </div>
           {input.description === "" ||
-          input.genreId === "" ||
-          input.name === "" ||
-          input.description === "" ||
-          input.rating === "" ||
-          input.platformId === "" ? (
+            input.genreId.length === 0 ||
+            input.name === "" ||
+            input.description === "" ||
+            input.rating === "" ||
+            input.platformId.length === 0 ? (
             <button
               style={{
                 border: "1px red solid",
