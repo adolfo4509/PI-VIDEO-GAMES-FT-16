@@ -24,7 +24,11 @@ const { conn } = require("./src/db.js");
 // Syncing all the models at once.
 conn.sync({ force: false }).then(() => {
   console.log("Base datos conectada");
-  server.listen(3001, () => {
-    console.log("%s listening at 3001"); // eslint-disable-line no-console
-  });
+  if (process.env.NODE_ENV !== "production") {
+    server.listen(3001, () => {
+      console.log("%s listening at 3001"); // eslint-disable-line no-console
+    });
+  }
 });
+
+module.exports = server;
