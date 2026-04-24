@@ -21,14 +21,25 @@ require("dotenv").config();
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 // Syncing all the models at once.
-conn.sync({ force: false }).then(() => {
-  console.log("Base datos conectada");
+if (isProduction) {
+  // En producción (MongoDB), la conexión ya se establece en db.js
+  console.log("Base datos conectada (MongoDB)");
   if (process.env.NODE_ENV !== "production") {
     server.listen(3001, () => {
       console.log("%s listening at 3001"); // eslint-disable-line no-console
     });
   }
-});
+} else {
+  // En desarrollo (Sequelize)
+  conn.sync({ force: false }).then(() => {
+    console.log("Base datos conectada (PostgreSQL)");
+    server.listen(3001, () => {
+      console.log("%s listening at 3001"); // eslint-disable-line no-console
+    });
+  });
+}
 
 module.exports = server;
