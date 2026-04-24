@@ -1,0 +1,11 @@
+{
+	"name": "videogames-project",
+	"version": "1.0.0",
+	"description": "Videogames API and Client",
+	"scripts": {
+		"install": "cd api && npm install",
+		"build": "cd api && npm run build --if-present",
+		"test": "cd api && npm run test --if-present",
+		"start": "cd api && npm start"
+	}
+}
