@@ -1,12 +1,10 @@
 import {useState} from "react";
-import { Link } from "react-router-dom";
-import Logo from "../img/logoHenry.png";
 import "../App.css";
-import { Search } from "../Search/Search";
 import { useDispatch,useSelector } from "react-redux";
 import { getVideogames,fileterByGenres,orderByName,orderByRating,filterCreate } from "../Redux/actions";
 import FlechaArriba from "../utilities/Arrows/FlechaArriba";
 import FlechaAbajo from "../utilities/Arrows/FlechaAbajo";
+
 const Nav = () => {
   const dispatch = useDispatch();
  const [, setOrden] = useState();
