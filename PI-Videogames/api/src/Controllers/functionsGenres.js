@@ -16,6 +16,7 @@ const genresInfo = async () => {
 
   if (consultDb.length === 0) {
     await Genres.insertMany(infoGenres);
+  }
 
   return infoGenres;
 };
