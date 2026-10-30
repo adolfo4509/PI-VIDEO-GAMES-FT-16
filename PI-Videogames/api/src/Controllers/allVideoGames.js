@@ -22,7 +22,7 @@ const apiInfo = async () => {
   }
   return results;
 };
-
+/*
 const getDbInfo = async () => {
   const dbInfo = await Videogame.findAll({
     include: [{ model: Genres }, { model: Platforms }],
@@ -42,6 +42,10 @@ const getDbInfo = async () => {
     };
   });
   return temp;
+};
+*/
+const getDbInfo = async () => {
+  return [];
 };
 
 async function getAllInfo() {
