@@ -70,7 +70,7 @@ const Detail = (props) => {
   const handleDelete = (e) => {
     e.preventDefault();
     dispatch(deleteVideogame(id));
-    console.log("🚀 ~ file: Detail.js:7 ~ Detail ~ respuestaDelete:", respuestaDelete);
+   
     if(respuestaDelete.length === 0){
       alert("El juego ha sido eliminado exitosamente");
       window.location.href = "/home";
