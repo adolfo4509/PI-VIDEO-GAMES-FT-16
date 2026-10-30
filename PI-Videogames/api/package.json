@@ -4,15 +4,14 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon -L",
-		"build": "react-scripts build",
-		"test": "mocha -w ./tests/**/*.spec.js",
-		"test:headers": "node test-headers.js"
+		"start": "node index.js",
+        "test": "mocha -W ./tests/**/*.spec.js",
+        "test:headers": "node test-headers.js"
 	},
 	"author": "Henry",
 	"license": "ISC",
 	"engines": {
-		"node": ">=24.1.0",
+		"node": "22.x",
 		"npm": ">=11.11.0"
 	},
 	"dependencies": {
