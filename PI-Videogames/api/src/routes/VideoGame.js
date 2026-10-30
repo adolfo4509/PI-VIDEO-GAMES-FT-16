@@ -7,6 +7,7 @@ const { getAllInfo } = require("../Controllers/allVideoGames.js");
 const { v4: uuidv4 } = require("uuid");
 const { videoGameForName } = require("../Controllers/videoGamePorName.js");
 const { videoGameForId } = require("../Controllers/videoGameForId.js");
+const deleteVideoGame = require("../Controllers/videoGameDeleted.js");
 const router = Router();
 
 router.get("/videogames", async (req, res, next) => {
@@ -78,12 +79,10 @@ router.post("/videogame", async (req, res, next) => {
       rating,
       genreId,
       platformId,
-
       background_image,
     });
     await videogameCreate.setGenres(genreId);
     await videogameCreate.setPlatforms(platformId);
-
     res
       .status(200)
       .send({ message: "VideoGame creado exitósamente" });
@@ -91,5 +90,16 @@ router.post("/videogame", async (req, res, next) => {
     next('Este es el error desde el backend metodo post', error);
   }
 });
-
+/*Implementar delete videgames */
+router.delete("/videogames/:id", async (req, res, next) => {
+  const { id } = req.params;
+  
+  try {
+    const videoGameDeleted = await deleteVideoGame(id);
+    
+    res.status(200).send(videoGameDeleted);
+  } catch (error) {
+    next('Este es el error desde el backend metodo delete', error);
+  }
+});
 module.exports = router;

@@ -10,6 +10,7 @@ const {
   GET_PLATFORMS,
   GET_VIDEOGAME_DETAIL,
   FILTER_CREATE,
+  DELETE_VIDEOGAME,
 } = require("./actions");
 
 const inicialState = {
@@ -19,6 +20,7 @@ const inicialState = {
   platforms: [],
   videogameDetail: [],
   videogameCreated: [],
+  deleteVideogame: [],
 };
 
 function rootReducer(state = inicialState, action) {
@@ -126,6 +128,11 @@ function rootReducer(state = inicialState, action) {
         ...state,
         videogameLoad:
           action.payload === "All" ? state.videogameLoad : createdFilter,
+      };
+    case DELETE_VIDEOGAME:
+      return {
+        ...state,
+        deleteVideogame: state.videogameLoad.filter((e) => e.id !== action.payload),
       };
     default:
       return state;

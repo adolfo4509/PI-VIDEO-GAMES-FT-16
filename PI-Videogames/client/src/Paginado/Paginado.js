@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 import "./paginados.css";
 import Card from "../Card/Card";
 
 export default function Paginado({ allvideogame }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [disable, setDisabled] = useState(false);
   const pageSize = 14;
 
@@ -13,14 +13,21 @@ export default function Paginado({ allvideogame }) {
     currentPage * pageSize,
     (currentPage + 1) * pageSize
   );
-
+const totalPages = Math.ceil(allvideogame.length / pageSize);
   const nextPage = () => {
-    if (currentPage < pageSize) {
+    if (currentPage < totalPages - 1) {
       setCurrentPage((currentPage) => currentPage + 1);
       setDisabled(false);
 
     }
   };
+  useEffect(() => {
+    if (currentPage === totalPages - 1) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [currentPage, totalPages]);
 
   const prevPage = () => {
     if (currentPage > 0) {
@@ -28,19 +35,26 @@ export default function Paginado({ allvideogame }) {
       setDisabled(false);
     }
   };
+  const showNextPrevButtons = () => {
+    return (
+      <div className="paginado">
+        <span className={!disable && currentPage > 0 ? "App-link1" : "App-link1-disabled"} onClick={prevPage} disabled={disable}>
+          ...Prev
+        </span>
+        <span>Página {currentPage + 1}</span>
+        <span className={!disable && currentPage < totalPages - 1 ? "App-link2" : "App-link2-disabled"} onClick={nextPage} disabled={disable}>
+          Next...
+        </span>
+      </div>
+    );
+  };
   return (
-    <nav className="nav_paginado">
+    
       <div className="contendor">
         <div className="paginado">
 
-
-          <span onClick={prevPage} disabled={disable}>
-            ...Prev
-          </span>
-          <span>Página {currentPage}</span>
-          <span onClick={nextPage} disabled={disable}>
-            Next...
-          </span>
+          {showNextPrevButtons()}
+         
         </div>
         <div className="cards_breads">
           {currentData.length > 0 ? (
@@ -72,15 +86,9 @@ export default function Paginado({ allvideogame }) {
           )}
         </div>
         <div className="paginado-abajo">
-          <span onClick={prevPage} disabled={disable}>
-            ...Prev
-          </span>
-          <span>Página {currentPage}</span>
-          <span onClick={nextPage} disabled={disable}>
-            Next...
-          </span>
+          {showNextPrevButtons()}
         </div>
       </div>
-    </nav>
+   
   );
 }

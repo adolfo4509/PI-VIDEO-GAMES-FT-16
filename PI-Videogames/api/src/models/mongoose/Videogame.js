@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 
 const videogameSchema = new mongoose.Schema(
   {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      auto: true,
-    },
+    
     id: {
       type: String,
       default: () => new mongoose.Types.ObjectId().toString(),

@@ -11,6 +11,7 @@ export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const GET_PLATFORMS = "GET_PLATFORMS";
 export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
 export const FILTER_CREATE = "FILTER_CREATE";
+export const DELETE_VIDEOGAME = "DELETE_VIDEOGAME";
 
 export const getVideogames = () => {
   return async (dispatch) => {
@@ -125,3 +126,16 @@ export const postAllImagesVideogame = (id, payload) => {
     }
   };
 };
+export const deleteVideogame = (id) => {
+  return async (dispatch) => {
+    try {
+      await apiClient.delete(`videogames/videogames/${id}`);
+      dispatch({
+        type: "DELETE_VIDEOGAME",
+        payload: id,
+      });
+    } catch (error) {
+      console.error("Error deleting videogame:", error);
+    }
+  };
+}

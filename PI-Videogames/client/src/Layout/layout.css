@@ -1,0 +1,33 @@
+#page {
+  display: grid;
+  width: 100%;
+  height: 250px;
+  grid-template-areas:
+    "head head head"
+    "nav  main main"
+    "nav  main main";
+ grid-template-rows: 105px 1fr 30px;
+  grid-template-columns: 150px 1fr;
+  
+    
+}
+
+#page.landing-page {
+  display: block;
+  height: auto;
+}
+
+#page > header {
+  grid-area: head;
+  
+}
+
+#page > nav {
+  grid-area: nav;
+ 
+}
+
+#page > main {
+  grid-area: main;
+ 
+}

@@ -1,8 +1,4 @@
-.nav_paginado {
 
-  width: 100%;
-  padding-top: 100px;
-}
 
 .contendor {
   margin-left: 20px;
@@ -11,9 +7,54 @@
 }
 
 .paginado {
+  display: flex;
+  justify-content: center;
   background-color: cyan;
 }
-
+.App-link1 {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding: 0.3rem;
+  margin: 0.2rem;
+  border-radius: 50%;
+  background-color: #123e58d1;
+  cursor: pointer;
+}
+.App-link2 {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding: 0.3rem;
+  margin: 0.2rem;
+  border-radius: 50%;
+  background-color: #123e58d1;
+  cursor: pointer;
+}
+.App-link1-disabled {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding: 0.3rem;
+  margin: 0.2rem;
+  border-radius: 50%;
+  background-color: #123e58d1;
+  cursor: not-allowed;
+}
+.App-link2-disabled {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding: 0.3rem;
+  margin: 0.2rem;
+  border-radius: 50%;
+  background-color: #123e58d1;
+  cursor: not-allowed;
+}
 .cards_bread {
   grid-gap: 10px;
   min-width: 90%;

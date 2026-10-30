@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getPlatforms } from "../Redux/actions";
-import Nav from "../Nav/Nav";
+
 import "./created.css";
 
 const validate = (input) => {
@@ -38,7 +38,7 @@ const CreateVideogame = () => {
   const platforms = useSelector((e) => e.platforms);
   const [mensaje, setMensaje] = useState("");
   const [mostrarPopUp, setMostrarPopUp] = useState(false);
-  const [activarBoton, setActivarBoton] = useState(true);
+  const [activarBoton, ] = useState(true);
   const [nombrePlataforma, setNombrePlataforma] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -124,18 +124,17 @@ const CreateVideogame = () => {
     let span = document.getElementById("idSpan");
     let elimanar = document.getElementById("idH4");
     elimanar.removeChild(span);
-    let borrar = input;
+    
     setNombrePlataforma("");
-    let cerrar = e.target;
-    // innerHTML
-    //borrar.removeChild(cerrar);
+  
+    
   };
   const cerrarModal = () => {
     setMostrarPopUp(false);
   };
   return (
     <div className="created">
-      <Nav />
+      
       <div className="form_videogame">
         <h1>Crear videogame</h1>
         <form onSubmit={handleSubmit}>

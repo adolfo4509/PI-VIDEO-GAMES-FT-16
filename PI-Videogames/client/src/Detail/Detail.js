@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getVideogameDetail } from "../Redux/actions";
-import Nav from "../Nav/Nav";
+import { deleteVideogame, getVideogameDetail } from "../Redux/actions";
+
 import("./detail.css");
 
 const Detail = (props) => {
   const { id } = props.match.params;
-
+  const respuestaDelete = useSelector((state) => state.deleteVideogame);
+  const isStringId = typeof id === "string";
+  
   const dispatch = useDispatch();
   const [muestraPopUp, setMuestraPopUp] = useState(true);
   const myVideogame = useSelector((e) => e.videogameDetail);
@@ -64,10 +66,18 @@ const Detail = (props) => {
     } else if (myVideogame?.message === "Videogame not found") {
       setMuestraPopUp(false);
     }
-  }, [ id]);
+  }, [ dispatch, id, myVideogame?.length, myVideogame?.message]);
+  const handleDelete = (e) => {
+    e.preventDefault();
+    dispatch(deleteVideogame(id));
+    console.log("🚀 ~ file: Detail.js:7 ~ Detail ~ respuestaDelete:", respuestaDelete);
+    if(respuestaDelete.length === 0){
+      alert("El juego ha sido eliminado exitosamente");
+      window.location.href = "/home";
+    }
+  }
   return (
-    <div>
-      <Nav />
+   
 
       <div className="cards_details">
         {muestraPopUp ? (
@@ -117,10 +127,15 @@ const Detail = (props) => {
                 );
               }
             ):<p>{myVideogame.message}</p>}
+              {isStringId ? (
+          <button onClick={handleDelete} className="cards_h4">Eliminar Juego</button>
+        ) : (
+          <h4 className="cards_h4">Creado en API</h4>
+        )}
           </div>
         )}
       </div>
-    </div>
+    
   );
 };
 

@@ -22,22 +22,24 @@ const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 
 const isProduction = process.env.NODE_ENV === "production";
-
+const PORT = process.env.PORT || 3001;
 // Syncing all the models at once.
+
+
 if (isProduction) {
   // En producción (MongoDB), la conexión ya se establece en db.js
   console.log("Base datos conectada (MongoDB)");
   if (process.env.NODE_ENV !== "production") {
-    server.listen(3001, () => {
-      console.log("%s listening at 3001"); // eslint-disable-line no-console
+    server.listen(PORT, () => {
+      console.log("%s listening at %d", server.name, PORT); // eslint-disable-line no-console
     });
   }
 } else {
   // En desarrollo (Sequelize)
   conn.sync({ force: false }).then(() => {
-    console.log("Base datos conectada (PostgreSQL)");
-    server.listen(3001, () => {
-      console.log("%s listening at 3001"); // eslint-disable-line no-console
+    console.log("desde desarrollo: Base datos conectada (PostgreSQL)");
+    server.listen(PORT, () => {
+      console.log("%s Escuchando en %d", server.name, PORT); // eslint-disable-line no-console
     });
   });
 }

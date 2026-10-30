@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import Nav from "../Nav/Nav";
+
 import { postAllImagesVideogame } from "../Redux/actions";
 
 const AddImage = () => {
@@ -38,7 +38,7 @@ const AddImage = () => {
   };
   return (
     <div className="form_videogame">
-      <Nav />
+      
       <form onSubmit={onFormSubmit}>
         <div className="add_imagen">
           <label> INSERTAR IMAGEN:</label>
