@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import Nav from "../Nav/Nav";
+
 import { postAllImagesVideogame } from "../Redux/actions";
 
 const AddImage = () => {

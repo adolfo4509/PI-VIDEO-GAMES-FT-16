@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteVideogame, getVideogameDetail } from "../Redux/actions";
-import Nav from "../Nav/Nav";
+
 import("./detail.css");
 
 const Detail = (props) => {
@@ -66,7 +66,7 @@ const Detail = (props) => {
     } else if (myVideogame?.message === "Videogame not found") {
       setMuestraPopUp(false);
     }
-  }, [ id]);
+  }, [ dispatch, id, myVideogame?.length, myVideogame?.message]);
   const handleDelete = (e) => {
     e.preventDefault();
     dispatch(deleteVideogame(id));
