@@ -38,7 +38,7 @@ const AddImage = () => {
   };
   return (
     <div className="form_videogame">
-      <Nav />
+      
       <form onSubmit={onFormSubmit}>
         <div className="add_imagen">
           <label> INSERTAR IMAGEN:</label>
