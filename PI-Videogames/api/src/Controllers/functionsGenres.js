@@ -12,7 +12,7 @@ const genresInfo = async () => {
   });
  
   
-  const consultDb = await Genres.find({});
+  const consultDb = await Genres.find();
 
   if (consultDb.length === 0) {
     await Genres.insertMany(infoGenres);
