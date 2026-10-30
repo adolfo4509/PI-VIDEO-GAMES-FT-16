@@ -24,6 +24,8 @@ function Home() {
   useEffect(() => {
     
     if (allVideogame.length === 0) {
+      console.log(process.env.NODE_ENV
+)
     dispatch(getVideogames());
     dispatch(selectGameGenres());
   }
