@@ -18,17 +18,16 @@ function Home() {
   const dispatch = useDispatch();
 
 
-  let preloadInitial = window.onload = function () {
-    if (allVideogame.length === 0) {
-      dispatch(getVideogames());
-    }
-  };
+  
 
 
   useEffect(() => {
+    
+    if (allVideogame.length === 0) {
+    dispatch(getVideogames());
     dispatch(selectGameGenres());
-    preloadInitial();
-  }, []);
+  }
+  }, [allVideogame.length, dispatch]);
   
   return (
     <div className="container">

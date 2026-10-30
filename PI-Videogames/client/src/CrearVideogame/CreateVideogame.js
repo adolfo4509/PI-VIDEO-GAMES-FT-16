@@ -38,7 +38,7 @@ const CreateVideogame = () => {
   const platforms = useSelector((e) => e.platforms);
   const [mensaje, setMensaje] = useState("");
   const [mostrarPopUp, setMostrarPopUp] = useState(false);
-  const [activarBoton, setActivarBoton] = useState(true);
+  const [activarBoton, ] = useState(true);
   const [nombrePlataforma, setNombrePlataforma] = useState([]);
   const [show, setShow] = useState(false);
 

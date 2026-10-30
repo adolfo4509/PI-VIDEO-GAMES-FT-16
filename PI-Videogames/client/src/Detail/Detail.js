@@ -66,7 +66,7 @@ const Detail = (props) => {
     } else if (myVideogame?.message === "Videogame not found") {
       setMuestraPopUp(false);
     }
-  }, [ ]);
+  }, [ dispatch, id, myVideogame?.length, myVideogame?.message]);
   const handleDelete = (e) => {
     e.preventDefault();
     dispatch(deleteVideogame(id));
