@@ -10,9 +10,7 @@ const corsConfig = (req, res, next) => {
         'http://localhost:3000',
         'http://127.0.0.1:3000',
         'http://192.168.80.18:3000',
-        "https://pi-video-games-ft-16-8jo7.vercel.app",
-        "https://pi-video-games-ft-16-52qt.vercel.app/api/genres/genres",
-        "https://pi-video-games-ft-16-52qt.vercel.app/api/genres/genres",
+       
         process.env.FRONTEND_URL // Para producción
     ].filter(Boolean); // Filtrar valores undefined
 
