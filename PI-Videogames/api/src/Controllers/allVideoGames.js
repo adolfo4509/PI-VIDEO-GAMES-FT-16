@@ -22,7 +22,7 @@ const apiInfo = async () => {
   }
   return results;
 };
-/*
+
 const getDbInfo = async () => {
   const dbInfo = await Videogame.findAll({
     include: [{ model: Genres }, { model: Platforms }],
@@ -43,8 +43,8 @@ const getDbInfo = async () => {
   });
   return temp;
 };
-*/
-const getDbInfo = async () => {
+
+const getDbInfoProd = async () => {
   return [];
 };
 
@@ -63,7 +63,7 @@ async function getAllInfo() {
     };
   });
 
-  const dbInfo = await getDbInfo();
+  const dbInfo = process.env.NODE_ENV === "development" ? await getDbInfo() : await getDbInfoProd;
 
   const totalApi = temp.concat(dbInfo).flat();
 
