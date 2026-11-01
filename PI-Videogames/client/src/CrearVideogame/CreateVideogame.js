@@ -38,7 +38,7 @@ const CreateVideogame = () => {
   const platforms = useSelector((e) => e.platforms);
   const [mensaje, setMensaje] = useState("");
   const [mostrarPopUp, setMostrarPopUp] = useState(false);
-  const [activarBoton, ] = useState(true);
+  const [activarBoton,] = useState(true);
   const [nombrePlataforma, setNombrePlataforma] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -58,48 +58,42 @@ const CreateVideogame = () => {
     background_image:
       "https://th.bing.com/th/id/OIP.4jewR4iZLbQc4u7-lAKnZwHaEK?pid=ImgDet&rs.jpg",
   });
-
-  const handleChange = (e) => {
-    let plataformas = document.getElementById("selectPlataformas");
-    let genero = document.getElementById("selectGeneros");
-    let generoNombre = genero?.options[genero?.selectedIndex].text;
-    const { name, value } = e.target;
-
+  const showTextGeneroYPlataforma = (e) => {
+    const { name, value, options, selectedIndex } = e.target;
+    const nombrePlataformas = options[selectedIndex].text;
+    const nombreGeneros = options[selectedIndex].text;
     if (name === "platformId") {
+      setShow(true);
+      setNombrePlataforma(nombrePlataforma + " " + nombrePlataformas);
       setInput({
         ...input,
         [name]: input.platformId.concat(parseInt(value)),
       });
-    } else if (name === "genreId") {
+    }
+    if (name === "genreId") {
+
+      setGeneros(generos + " " + nombreGeneros);
       setInput({
         ...input,
         [name]: input.genreId.concat(parseInt(value)),
       });
-    } else {
-      setInput({
-        ...input,
-        [name]: value,
-      });
     }
+  }
+  const handleChange = (e) => {
 
+    const { name, value } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
+    });
     setErrors(
       validate({
         ...input,
         [name]: value,
       })
     );
-    if (name === "genreId") {
-      setGeneros(generos + " " + generoNombre);
-    }
+    if (name === "genreId" || name === "platformId") { showTextGeneroYPlataforma(e); }
 
-    if (name === "platformId") {
-      setNombrePlataforma(
-        nombrePlataforma +
-        " " +
-        plataformas.options[plataformas.selectedIndex].text
-      );
-    }
-    setShow(true);
   };
 
   const handleSubmit = async (e) => {
@@ -124,17 +118,21 @@ const CreateVideogame = () => {
     let span = document.getElementById("idSpan");
     let elimanar = document.getElementById("idH4");
     elimanar.removeChild(span);
-    
+
     setNombrePlataforma("");
-  
-    
+    setInput({
+      ...input,
+      platformId: [],
+    });
+
+
   };
   const cerrarModal = () => {
     setMostrarPopUp(false);
   };
   return (
     <div className="created">
-      
+
       <div className="form_videogame">
         <h1>Crear videogame</h1>
         <form onSubmit={handleSubmit}>
@@ -218,7 +216,7 @@ const CreateVideogame = () => {
                     </>
                   ))}
               </select>
-              <label htmlFor="selectGeneros">{generos}</label>
+              <label>{generos}</label>
             </div>
             <div className="datos">
               <label>Plataformas:</label>
@@ -227,11 +225,11 @@ const CreateVideogame = () => {
                 name="platformId"
                 onChange={handleChange}
               >
+                <option value="" hidden>
+                  Selecciona
+                </option>
                 {platforms.map((plat) => (
                   <>
-                    <option value="" hidden>
-                      Selecciona
-                    </option>
                     <option key={plat.id} value={plat.id} name={plat}>
                       {plat.name}
                     </option>
