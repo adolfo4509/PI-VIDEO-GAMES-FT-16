@@ -8,7 +8,7 @@ const corsConfig = (req, res, next) => {
     // Orígenes permitidos (configurables por entorno)
     const frontendUrl =
   process.env.NODE_ENV === "production"
-    ? process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL || "https://pi-video-games-ft-16-8jo7.vercel.app"
     : "http://localhost:3000" || "http://127.0.0.1:3001";
     const allowedOrigins = [
        
