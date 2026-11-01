@@ -15,7 +15,7 @@ const genresInfo = async () => {
   const consultDb = process.env.NODE_ENV !== "development" ? await Genres.find() : Genres.findAll();
 
   if (consultDb.length === 0) {
-    await Genres.insertMany(infoGenres);
+  process.env.NODE_ENV !== "development" ?  await Genres.insertMany(infoGenres) : await Genres.bulkCreate(infoGenres);
   }
 
   return infoGenres;
