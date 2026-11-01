@@ -82,12 +82,14 @@ const CreateVideogame = () => {
   const handleChange = (e) => {
 
     const { name, value } = e.target;
+    if (name === "genreId" || name === "platformId") { showTextGeneroYPlataforma(e); } else {
+      {
+        setInput({
+          ...input,
+          [name]: value,
+        });
+      }
 
-    {
-      setInput({
-        ...input,
-        [name]: value,
-      });
     }
     setErrors(
       validate({
@@ -96,7 +98,7 @@ const CreateVideogame = () => {
       })
     );
 
-    if (name === "genreId" || name === "platformId") { showTextGeneroYPlataforma(e); }
+
 
   };
 
