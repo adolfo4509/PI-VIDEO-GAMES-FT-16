@@ -19,10 +19,7 @@ if (isProduction) {
 
   // Conectar a MongoDB
   mongoose
-    .connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(MONGODB_URI)
     .then(() => console.log("MongoDB conectado correctamente"))
     .catch((err) => console.error("Error conectando a MongoDB:", err));
 
