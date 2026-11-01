@@ -20,6 +20,7 @@ const corsConfig = (req, res, next) => {
     // Verificar si el origen está permitido
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
+        console.log(`CORS: Origen permitido - ${origin}`);
        
     }
 
