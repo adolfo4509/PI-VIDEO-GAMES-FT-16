@@ -27,7 +27,7 @@ const platfor = async () => {
 
   const consultDb =process.env.NODE_ENV !== "development" ? await Platforms.find() : await Platforms.findAll({});
   if (consultDb.length === 0) {
-  process.env.NODE_ENV !== "development" ?  await Platforms.insertMany(infoGenres) :   await Platforms.bulkCreate(arrayFiltrado);
+  process.env.NODE_ENV !== "development" ?  await Platforms.insertMany(arrayFiltrado) :   await Platforms.bulkCreate(arrayFiltrado);
   }
   return arrayFiltrado;
 };
