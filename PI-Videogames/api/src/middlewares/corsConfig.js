@@ -8,7 +8,7 @@ const corsConfig = (req, res, next) => {
     // Orígenes permitidos (configurables por entorno)
     const frontendUrl =
   process.env.NODE_ENV === "production"
-    ? `https://${process.env.VERCEL_URL}`
+    ? process.env.FRONTEND_URL
     : "http://localhost:3000" || "http://127.0.0.1:3001";
     const allowedOrigins = [
        
@@ -20,8 +20,7 @@ const corsConfig = (req, res, next) => {
     // Verificar si el origen está permitido
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
-        console.log(`CORS: Origen permitido - ${origin}`);
-       
+               
     }
 
     // Headers CORS desde configuración centralizada
