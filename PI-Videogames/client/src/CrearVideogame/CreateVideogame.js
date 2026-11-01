@@ -81,8 +81,6 @@ const CreateVideogame = () => {
   }
   const handleChange = (e) => {
 
- console.log("Mostar en PDR=====>>>>",e.target.value);
-
     const { name, value } = e.target;
    
       { 
@@ -91,7 +89,6 @@ const CreateVideogame = () => {
         [name]: value,
       });
     }
-
     setErrors(
       validate({
         ...input,
