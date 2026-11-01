@@ -59,7 +59,7 @@ const CreateVideogame = () => {
       "https://th.bing.com/th/id/OIP.4jewR4iZLbQc4u7-lAKnZwHaEK?pid=ImgDet&rs.jpg",
   });
   const showTextGeneroYPlataforma = (e) => {
-    const { name, value,options, selectedIndex } = e.target;
+    const { name, value, options, selectedIndex } = e.target;
     const nombrePlataformas = options[selectedIndex].text;
     const nombreGeneros = options[selectedIndex].text;
     if (name === "platformId") {
@@ -82,8 +82,8 @@ const CreateVideogame = () => {
   const handleChange = (e) => {
 
     const { name, value } = e.target;
-   
-      { 
+
+    {
       setInput({
         ...input,
         [name]: value,
@@ -96,8 +96,8 @@ const CreateVideogame = () => {
       })
     );
 
-    if (name === "genreId" || name === "platformId") showTextGeneroYPlataforma(e);
-    
+    if (name === "genreId" || name === "platformId") { showTextGeneroYPlataforma(e); }
+
   };
 
   const handleSubmit = async (e) => {
@@ -229,9 +229,9 @@ const CreateVideogame = () => {
                 name="platformId"
                 onChange={handleChange}
               >
-                    <option value="" hidden>
-                      Selecciona
-                    </option>
+                <option value="" hidden>
+                  Selecciona
+                </option>
                 {platforms.map((plat) => (
                   <>
                     <option key={plat.id} value={plat.id} name={plat}>
