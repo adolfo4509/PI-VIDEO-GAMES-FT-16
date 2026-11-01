@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const platformsSchema = new mongoose.Schema(
   {
+    id: Number,
     name: {
       type: String,
     },

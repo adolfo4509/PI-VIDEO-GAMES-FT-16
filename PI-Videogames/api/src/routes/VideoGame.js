@@ -59,7 +59,7 @@ Crea un videojuego en la base de datos
 ** Posibilidad de seleccionar/agregar varios géneros
 ** Posibilidad de seleccionar/agregar varias plataformas
 */
-router.post("/videogame", async (req, res, next) => {
+/*router.post("/videogame", async (req, res, next) => {
   const {
     name,
     description,
@@ -71,32 +71,100 @@ router.post("/videogame", async (req, res, next) => {
   } = req.body;
 
   try {
+    if (process.env.NODE_ENV !== 'production') {
+      const videogameCreate = await Videogame.create({
+        id: uuidv4(),
+        name,
+        description,
+        released,
+        rating,
+        genreId,
+        platformId,
+        background_image,
+      });
+      await videogameCreate.setGenres(genreId);
+      await videogameCreate.setPlatforms(platformId);
+      res
+        .status(200)
+        .send({ message: "VideoGame creado exitósamente" });
+    } else {
+      await Videogame.create({
+        name,
+        description,
+        released,
+        rating,
+        genres: genreId,
+        platforms: platformId,
+        background_image,
+      });
+    }
+  } catch (error) {
+    next('Este es el error desde el backend metodo post', error);
+  }
+});*/
+router.post("/videogame", async (req, res) => {
+  const {
+    name,
+    description,
+    released,
+    rating,
+    genreId,
+    platformId,
+    background_image,
+  } = req.body;
+
+  try {
+    // DESARROLLO - PostgreSQL + Sequelize
+    if (process.env.NODE_ENV !== "production") {
+      const videogameCreate = await Videogame.create({
+        id: uuidv4(),
+        name,
+        description,
+        released,
+        rating,
+        background_image,
+      });
+
+      await videogameCreate.setGenres(genreId);
+      await videogameCreate.setPlatforms(platformId);
+
+      return res.status(201).json({
+        message: "VideoGame creado exitosamente",
+        videogame: videogameCreate,
+      });
+    }
+
+    // PRODUCCIÓN - MongoDB + Mongoose
     const videogameCreate = await Videogame.create({
-      id: uuidv4(),
       name,
       description,
       released,
       rating,
-      genreId,
-      platformId,
+      genres: genreId,
+      platforms: platformId,
       background_image,
     });
-    await videogameCreate.setGenres(genreId);
-    await videogameCreate.setPlatforms(platformId);
-    res
-      .status(200)
-      .send({ message: "VideoGame creado exitósamente" });
+
+    return res.status(201).json({
+      message: "VideoGame creado exitosamente",
+      videogame: videogameCreate,
+    });
+
   } catch (error) {
-    next('Este es el error desde el backend metodo post', error);
+    console.error("ERROR POST:", error);
+
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 });
 /*Implementar delete videgames */
 router.delete("/videogames/:id", async (req, res, next) => {
   const { id } = req.params;
-  
+
   try {
     const videoGameDeleted = await deleteVideoGame(id);
-    
+
     res.status(200).send(videoGameDeleted);
   } catch (error) {
     next('Este es el error desde el backend metodo delete', error);

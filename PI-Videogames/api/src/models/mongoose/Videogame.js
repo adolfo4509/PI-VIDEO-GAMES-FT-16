@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const videogameSchema = new mongoose.Schema(
   {
-    
+
     id: {
       type: String,
       default: () => new mongoose.Types.ObjectId().toString(),
@@ -31,14 +31,13 @@ const videogameSchema = new mongoose.Schema(
     },
     genres: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Genres",
+        type: Number,
       },
     ],
+
     platforms: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Platforms",
+        type: Number,
       },
     ],
     images: [
