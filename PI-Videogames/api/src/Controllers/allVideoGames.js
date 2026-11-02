@@ -43,10 +43,21 @@ const getDbInfo = async () => {
   });
   return temp;
 };
-
-const getDbInfoProd = async () => {
-  return [];
-};
+ let getdbInfoMongoDb = await Videogame.find().populate("genres").populate("platforms");
+ console.log(getdbInfoMongoDb, "getdbInfoMongoDb");
+const getDbInfoProd = getdbInfoMongoDb.map ((e) => {
+  return {
+    id: e._id,
+    image: e.background_image,
+    rating: e.rating,
+    name: e.name,
+    released: e.released,
+    genres: e.genres.map((el) => el.name),
+    platforms: e.platforms.map((el) => el.name),
+    createInDb: e.createInDb,
+    descriptions: e.description,
+  };
+});
 
 async function getAllInfo() {
   const infoTotal = await apiInfo();
