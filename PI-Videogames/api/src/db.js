@@ -70,10 +70,10 @@ if (isProduction) {
   sequelize.models = Object.fromEntries(capsEntries);
 
   // Destructuring de modelos
-  Videogame = sequelize.models.Videogame;
-  Genres = sequelize.models.Genres;
-  Platforms = sequelize.models.Platforms;
-  Image = sequelize.models.Image;
+  Videogame = process.env.NODE_ENV === "production" ? Videogame : sequelize.models.Videogame;
+  Genres = process.env.NODE_ENV === "production" ? Genres : sequelize.models.Genres;
+  Platforms = process.env.NODE_ENV === "production" ? Platforms : sequelize.models.Platforms;
+  Image = process.env.NODE_ENV === "production" ? Image : sequelize.models.Image;
 
   // Relaciones Sequelize
   Videogame.belongsToMany(Genres, { through: "VideoGame_Genres" });
