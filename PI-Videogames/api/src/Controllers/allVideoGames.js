@@ -43,9 +43,9 @@ const getDbInfo = async () => {
   });
   return temp;
 };
- let getdbInfoMongoDb =  Videogame.find().populate("genres").populate("platforms");
+ let getdbInfoMongoDb =  Videogame.find();
  console.log(getdbInfoMongoDb, "getdbInfoMongoDb");
-const getDbInfoProd = getdbInfoMongoDb.map ((e) => {
+/* const getDbInfoProd = getdbInfoMongoDb.map ((e) => {
   return {
     id: e._id,
     image: e.background_image,
@@ -57,7 +57,24 @@ const getDbInfoProd = getdbInfoMongoDb.map ((e) => {
     createInDb: e.createInDb,
     descriptions: e.description,
   };
-});
+}); */
+const getDbInfoProd = async () => {
+  const dbInfo = await Videogame.find();
+  let temp = dbInfo.map((e) => {
+    return {
+      id: e._id,
+      image: e.background_image,
+      rating: e.rating,
+      name: e.name,
+      released: e.released,
+      genres: e.genres.map((el) => el.name),
+      platforms: e.platforms.map((el) => el.name),
+      createInDb: e.createInDb,
+      descriptions: e.description,
+    };
+  });
+  return temp;
+};
 
 async function getAllInfo() {
   const infoTotal = await apiInfo();
