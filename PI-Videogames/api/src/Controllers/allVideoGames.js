@@ -43,7 +43,7 @@ const getDbInfo = async () => {
   });
   return temp;
 };
- let getdbInfoMongoDb = await Videogame.find().populate("genres").populate("platforms");
+ let getdbInfoMongoDb =  Videogame.find().populate("genres").populate("platforms");
  console.log(getdbInfoMongoDb, "getdbInfoMongoDb");
 const getDbInfoProd = getdbInfoMongoDb.map ((e) => {
   return {
