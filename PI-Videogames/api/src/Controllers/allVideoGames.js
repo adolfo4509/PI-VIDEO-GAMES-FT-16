@@ -5,7 +5,7 @@ const { API_KEY } = process.env;
 const apiInfo = async () => {
   const getVideogamesPromises = [];
 
-  for (let index = 0; index < 50; index++) {
+  for (let index = 0; index < 10; index++) {
     getVideogamesPromises.push(
       axios.get(
         ` https://api.rawg.io/api/games?key=${API_KEY}&page=${index + 1}`
@@ -43,23 +43,10 @@ const getDbInfo = async () => {
   });
   return temp;
 };
- let getdbInfoMongoDb =  Videogame.find();
- console.log(getdbInfoMongoDb, "getdbInfoMongoDb");
-/* const getDbInfoProd = getdbInfoMongoDb.map ((e) => {
-  return {
-    id: e._id,
-    image: e.background_image,
-    rating: e.rating,
-    name: e.name,
-    released: e.released,
-    genres: e.genres.map((el) => el.name),
-    platforms: e.platforms.map((el) => el.name),
-    createInDb: e.createInDb,
-    descriptions: e.description,
-  };
-}); */
+
 const getDbInfoProd = async () => {
   const dbInfo = await Videogame.find();
+ 
   let temp = dbInfo.map((e) => {
     return {
       id: e._id,
@@ -73,6 +60,7 @@ const getDbInfoProd = async () => {
       descriptions: e.description,
     };
   });
+  
   return temp;
 };
 
@@ -91,7 +79,7 @@ async function getAllInfo() {
     };
   });
 
-  const dbInfo = process.env.NODE_ENV === "development" ? await getDbInfo() : await getDbInfoProd;
+  const dbInfo = process.env.NODE_ENV === "development" ? await getDbInfo() : await getDbInfoProd();
 
   const totalApi = temp.concat(dbInfo).flat();
 
