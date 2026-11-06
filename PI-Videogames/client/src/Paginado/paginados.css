@@ -2,14 +2,17 @@
 
 .contendor {
   margin-left: 20px;
-  width: 100%;
+  
 
 }
 
 .paginado {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   background-color: cyan;
+  width: 50%;
+  height: 50px;
+  margin: 0 auto;
 }
 .App-link1 {
   color: #fff;
@@ -80,7 +83,14 @@
   align-items: center;
   margin: 0.5rem;
 }
-
+.cards_breads {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  width: 4rem;
+  min-width: 90%;
+  height: 100vh;
+}
 @media (min-width: 768px) {
   .cards_breads {
     display: grid;
@@ -88,5 +98,6 @@
     grid-gap: 10px;
     width: 4rem;
     min-width: 90%;
+    height: 100vh;
   }
 }
